@@ -32,7 +32,7 @@ export default function Header({
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full bg-background-default-default border-border-default-default border-solid border-b-stroke-border box-border h-16 overflow-hidden flex items-center flex-wrap content-center px-space-800 gap-x-space-600 gap-y-0 text-left text-body-size-medium text-text-default-default font-body-font-family ${className}`}
+      className={`sticky top-0 z-50 w-full bg-background-default-default border-solid border-b border-black/80 border-b-[1px] box-border h-16 overflow-hidden flex items-center flex-wrap content-center px-space-800 gap-x-space-600 gap-y-0 text-left text-body-size-medium text-text-default-default font-body-font-family ${className}`}
     >
       <div className="flex items-center gap-6 shrink-0 md:hidden">
         <button
@@ -84,7 +84,7 @@ export default function Header({
               href={logout()}
               as="button"
               onClick={() => router.flushAll()}
-              className="flex-1 rounded-radius-200 bg-background-neutral-tertiary border-border-neutral-secondary border-solid border-stroke-border overflow-hidden flex items-center justify-center p-space-200 gap-space-200 no-underline text-text-default-default hover:opacity-90"
+              className="flex-1 bg-transparent border-0 overflow-hidden flex items-center justify-center p-space-200 gap-space-200 no-underline text-text-default-default hover:opacity-90 hover:underline decoration-black/60 underline-offset-4"
               data-test="logout-button"
             >
               <span className="relative leading-[100%] shrink-0">Sign out</span>
@@ -138,7 +138,7 @@ export default function Header({
                     setMobileOpen(false);
                     router.flushAll();
                   }}
-                  className="rounded-radius-200 bg-background-neutral-tertiary border border-border-neutral-secondary p-space-200 text-center no-underline text-text-default-default"
+                  className="bg-transparent border-0 p-space-200 text-center no-underline text-text-default-default hover:opacity-90 hover:underline decoration-black/60 underline-offset-4"
                   data-test="logout-button"
                 >
                   Sign out
