@@ -1,10 +1,12 @@
+import { Link, router, usePage } from "@inertiajs/react";
 import { useState } from "react";
-import { Link } from "@inertiajs/react";
-import NavigationPillList, { type NavItem } from "./NavigationPillList";
+import { logout } from "@/routes";
 import MenuIcon from "../../assets/Menu-16.svg";
-import XIcon from "../../assets/X-16.svg";
 import StarIcon from "../../assets/Star.svg";
+import XIcon from "../../assets/X-16.svg";
 import XSmall from "../../assets/X.svg";
+import NavigationPillList from "./NavigationPillList";
+import type { NavItem } from "./NavigationPillList";
 
 interface HeaderProps {
   className?: string;
@@ -24,6 +26,9 @@ export default function Header({
   showAuth = true,
 }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const page = usePage();
+  const auth = (page.props as { auth?: { user?: { id?: unknown } } }).auth;
+  const isAuthenticated = Boolean(auth?.user?.id);
 
   return (
     <header
@@ -74,22 +79,36 @@ export default function Header({
 
       {showAuth && (
         <div className="hidden md:flex w-[178px] items-center gap-space-300 shrink-0">
-          <Link
-            href="/sign-in"
-            className="flex-1 rounded-radius-200 bg-background-neutral-tertiary border-border-neutral-secondary border-solid border-stroke-border overflow-hidden flex items-center justify-center p-space-200 gap-space-200 no-underline text-text-default-default hover:opacity-90"
-          >
-            <img className="h-4 w-4 relative hidden shrink-0" alt="" src={StarIcon} />
-            <span className="relative leading-[100%] shrink-0">Sign in</span>
-            <img className="h-4 w-4 relative hidden shrink-0" alt="" src={XSmall} />
-          </Link>
-          <Link
-            href="/register"
-            className="flex-1 rounded-radius-200 bg-background-brand-default border-border-brand-default border-solid border-stroke-border overflow-hidden flex items-center justify-center p-space-200 gap-space-200 text-text-brand-on-brand no-underline hover:opacity-90"
-          >
-            <img className="h-4 w-4 relative hidden shrink-0" alt="" src={StarIcon} />
-            <span className="relative leading-[100%] shrink-0">Register</span>
-            <img className="h-4 w-4 relative hidden shrink-0" alt="" src={XSmall} />
-          </Link>
+          {isAuthenticated ? (
+            <Link
+              href={logout()}
+              as="button"
+              onClick={() => router.flushAll()}
+              className="flex-1 rounded-radius-200 bg-background-neutral-tertiary border-border-neutral-secondary border-solid border-stroke-border overflow-hidden flex items-center justify-center p-space-200 gap-space-200 no-underline text-text-default-default hover:opacity-90"
+              data-test="logout-button"
+            >
+              <span className="relative leading-[100%] shrink-0">Sign out</span>
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/sign-in"
+                className="flex-1 rounded-radius-200 bg-background-neutral-tertiary border-border-neutral-secondary border-solid border-stroke-border overflow-hidden flex items-center justify-center p-space-200 gap-space-200 no-underline text-text-default-default hover:opacity-90"
+              >
+                <img className="h-4 w-4 relative hidden shrink-0" alt="" src={StarIcon} />
+                <span className="relative leading-[100%] shrink-0">Sign in</span>
+                <img className="h-4 w-4 relative hidden shrink-0" alt="" src={XSmall} />
+              </Link>
+              <Link
+                href="/register"
+                className="flex-1 rounded-radius-200 bg-background-brand-default border-border-brand-default border-solid border-stroke-border overflow-hidden flex items-center justify-center p-space-200 gap-space-200 text-text-brand-on-brand no-underline hover:opacity-90"
+              >
+                <img className="h-4 w-4 relative hidden shrink-0" alt="" src={StarIcon} />
+                <span className="relative leading-[100%] shrink-0">Register</span>
+                <img className="h-4 w-4 relative hidden shrink-0" alt="" src={XSmall} />
+              </Link>
+            </>
+          )}
         </div>
       )}
 
@@ -111,20 +130,37 @@ export default function Header({
           />
           {showAuth && (
             <div className="flex flex-col gap-2 pt-4 mt-2 border-t border-border-default-default">
-              <Link
-                href="/sign-in"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-radius-200 bg-background-neutral-tertiary border border-border-neutral-secondary p-space-200 text-center no-underline text-text-default-default"
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/register"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-radius-200 bg-background-brand-default border border-border-brand-default p-space-200 text-center no-underline text-text-brand-on-brand"
-              >
-                Register
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  href={logout()}
+                  as="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    router.flushAll();
+                  }}
+                  className="rounded-radius-200 bg-background-neutral-tertiary border border-border-neutral-secondary p-space-200 text-center no-underline text-text-default-default"
+                  data-test="logout-button"
+                >
+                  Sign out
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/sign-in"
+                    onClick={() => setMobileOpen(false)}
+                    className="rounded-radius-200 bg-background-neutral-tertiary border border-border-neutral-secondary p-space-200 text-center no-underline text-text-default-default"
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setMobileOpen(false)}
+                    className="rounded-radius-200 bg-background-brand-default border border-border-brand-default p-space-200 text-center no-underline text-text-brand-on-brand"
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>
