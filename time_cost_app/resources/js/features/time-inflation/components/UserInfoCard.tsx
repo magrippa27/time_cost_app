@@ -4,14 +4,14 @@ type UserInfoCardProps = {
   countryName: string;
   age: string;
   monthlyIncome1: string;
-  monthlyIncome2: string;
+  hoursPerDay: string;
 };
 
 export default function UserInfoCard({
   countryName,
   age,
   monthlyIncome1,
-  monthlyIncome2,
+  hoursPerDay,
 }: UserInfoCardProps) {
   return (
     <Card className="rounded-xl border-2 border-neutral-200 bg-white shadow-lg overflow-hidden">
@@ -33,8 +33,8 @@ export default function UserInfoCard({
             <span>{monthlyIncome1 || "Not provided"}</span>
           </div>
           <div className="flex flex-wrap gap-x-4 gap-y-1 py-2">
-            <span className="text-neutral-500 font-medium min-w-[140px]">Monthly Income (Gross)</span>
-            <span>{monthlyIncome2 || "Not provided"}</span>
+            <span className="text-neutral-500 font-medium min-w-[140px]">Hours you work per day</span>
+            <span>{hoursPerDay || "Not provided"}</span>
           </div>
         </div>
       </CardContent>

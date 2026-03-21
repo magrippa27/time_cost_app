@@ -17,9 +17,46 @@ export default function TimeInflationPage() {
   const [country, setCountry] = useState("");
   const [age, setAge] = useState("");
   const [monthlyIncome1, setMonthlyIncome1] = useState("");
-  const [monthlyIncome2, setMonthlyIncome2] = useState("");
+  const [hoursPerDay, setHoursPerDay] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState<{ countryCode: string; age: string; monthlyIncome1: string; monthlyIncome2: string } | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<{ countryCode: string; age: string; monthlyIncome1: string; hoursPerDay: string } | null>(null);
+  const [apiLoading, setApiLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [apiResult, setApiResult] = useState<{
+    success: boolean;
+    yearsStart: number;
+    yearsEnd: number;
+    chartYears: number[];
+    usedWageSource: string;
+    cpiChangePct: number | null;
+    earningsChangePct: number | null;
+    realChangePct: number | null;
+    pastHoursForBasket: number | null;
+    todayHoursForBasket: number | null;
+    debug?: {
+      traceId: string;
+      countryIso3: string;
+      countryWageFetchFailed: boolean;
+      inflationError: string | null;
+      countryWageError: string | null;
+      worldRefWageError: string | null;
+      globalAvgWageError: string | null;
+      countryHasAll: boolean;
+      fallbackUsed: boolean;
+      usedWageSource: string;
+      missingWageYearsCountry: number[];
+      missingInflationYears: number[];
+    } | null;
+    rows: Array<{
+      year: number;
+      cpi_index: number | null;
+      earnings_index: number | null;
+      real_index: number | null;
+      hours_needed_per_day: number | null;
+    }>;
+    message?: string;
+  } | null>(null);
 
   useEffect(() => {
     if (!submitted) {
@@ -51,32 +88,92 @@ export default function TimeInflationPage() {
   }
 
   function handleProceed() {
+    const safeHours = parsePositiveNumber(hoursPerDay);
+    if (!country) {
+      setValidationError("Select a country to continue.");
+      return;
+    }
+    if (!safeHours) {
+      setValidationError("Enter a valid positive number of hours per day.");
+      return;
+    }
+    setValidationError(null);
     setIsSubmitting(true);
     setSubmitted({
       countryCode: country,
       age: age || "—",
       monthlyIncome1: monthlyIncome1 || "—",
-      monthlyIncome2: monthlyIncome2 || "—",
+      hoursPerDay: safeHours.toString(),
     });
     setTimeout(() => {
       setIsSubmitting(false);
     }, 800);
   }
 
-  const incomePast = submitted ? parsePositiveNumber(submitted.monthlyIncome1) : null;
-  const incomeToday = submitted ? parsePositiveNumber(submitted.monthlyIncome2) : null;
-  const basketCost = 500;
-  const workHoursPerMonth = 160;
-  const hourlyPast = incomePast ? incomePast / workHoursPerMonth : null;
-  const hourlyToday = incomeToday ? incomeToday / workHoursPerMonth : null;
-  const pastHoursForBasket = hourlyPast ? basketCost / hourlyPast : null;
-  const todayHoursForBasket = hourlyToday ? basketCost / hourlyToday : null;
-  const earningsChangePct =
-    incomePast && incomeToday ? ((incomeToday - incomePast) / incomePast) * 100 : null;
-  const cpiChangePct =
-    earningsChangePct == null ? null : Math.max(earningsChangePct + 10, earningsChangePct + 2);
-  const realChangePct =
-    earningsChangePct == null || cpiChangePct == null ? null : earningsChangePct - cpiChangePct;
+  useEffect(() => {
+    if (!submitted) {
+      return;
+    }
+
+    const controller = new AbortController();
+    setApiLoading(true);
+    setApiError(null);
+    setApiResult(null);
+
+    const url =
+      `/time-inflation/data?country=${encodeURIComponent(submitted.countryCode)}&hoursPerDay=${encodeURIComponent(
+        submitted.hoursPerDay
+      )}&yearsEnd=2024`;
+
+    fetch(url, {
+      method: "GET",
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+      signal: controller.signal,
+    })
+      .then(async (resp) => {
+        const data = await resp.json().catch(() => null);
+        if (!resp.ok) {
+          if (data?.debug) {
+            console.log("time-inflation debug (error)", data.debug);
+          }
+          const msg = (data && typeof data.message === "string" && data.message) || `Request failed (${resp.status}).`;
+          throw new Error(msg);
+        }
+        if (!data || typeof data.success !== "boolean") {
+          throw new Error("Invalid server response.");
+        }
+        if (!data.success) {
+          if (data?.debug) {
+            console.log("time-inflation debug (success=false)", data.debug);
+          }
+          throw new Error(data.message || "Failed to compute time-inflation data.");
+        }
+        return data;
+      })
+      .then((data) => {
+        setApiResult(data);
+        if ((data as any)?.debug) {
+          console.log("time-inflation debug", (data as any).debug);
+          console.log("time-inflation usedWageSource", data.usedWageSource);
+          console.log("time-inflation missingInflationYears", data.missingInflationYears);
+          console.log("time-inflation missingWageYears", data.missingWageYears);
+        }
+      })
+      .catch((e) => {
+        if (e instanceof DOMException && e.name === "AbortError") {
+          return;
+        }
+        setApiError(e instanceof Error ? e.message : "Failed to load inflation data.");
+      })
+      .finally(() => {
+        setApiLoading(false);
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, [submitted]);
 
   return (
     <div className="w-full min-h-screen bg-background-default-default">
@@ -135,14 +232,20 @@ export default function TimeInflationPage() {
             className="rounded-lg border-2 border-neutral-300 bg-white"
           />
           <Input
-            label="Monthly Income (Gross)"
+            label="Hours you work per day"
             type="text"
-            placeholder="e.g. 2500"
-            value={monthlyIncome2}
-            onChange={(e) => setMonthlyIncome2(e.target.value)}
+            placeholder="e.g. 8"
+            value={hoursPerDay}
+            onChange={(e) => setHoursPerDay(e.target.value)}
             className="rounded-lg border-2 border-neutral-300 bg-white"
           />
         </div>
+
+        {validationError && (
+          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+            {validationError}
+          </div>
+        )}
 
         <div className="flex justify-center mb-24">
           <Star
@@ -162,20 +265,43 @@ export default function TimeInflationPage() {
               countryName={getCountryName(submitted.countryCode) || ""}
               age={submitted.age}
               monthlyIncome1={submitted.monthlyIncome1}
-              monthlyIncome2={submitted.monthlyIncome2}
+              hoursPerDay={submitted.hoursPerDay}
             />
 
             <DefinitionsSection sectionRef={definitionsRef} />
 
-            <CountryStorySection
-              sectionRef={countryStoryRef}
-              countryName={getCountryName(submitted.countryCode) || ""}
-              cpiChangePct={cpiChangePct}
-              earningsChangePct={earningsChangePct}
-              realChangePct={realChangePct}
-              pastHoursForBasket={pastHoursForBasket}
-              todayHoursForBasket={todayHoursForBasket}
-            />
+            {apiLoading && (
+              <div className="mt-6 mb-2 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-700">
+                Loading inflation and wages for the selected country…
+              </div>
+            )}
+
+            {apiError && (
+              <div className="mt-6 mb-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                {apiError}
+              </div>
+            )}
+
+            {apiResult && !apiLoading && (
+              <CountryStorySection
+                sectionRef={countryStoryRef}
+                countryName={getCountryName(submitted.countryCode) || ""}
+                yearsStart={apiResult.yearsStart ?? null}
+                yearsEnd={apiResult.yearsEnd ?? null}
+                usedWageSource={apiResult.usedWageSource ?? null}
+                chartYears={apiResult.chartYears ?? []}
+                cpiChangePct={apiResult.cpiChangePct ?? null}
+                earningsChangePct={apiResult.earningsChangePct ?? null}
+                realChangePct={apiResult.realChangePct ?? null}
+                pastHoursForBasket={apiResult.pastHoursForBasket ?? null}
+                todayHoursForBasket={apiResult.todayHoursForBasket ?? null}
+                hoursPerDayInput={parsePositiveNumber(submitted.hoursPerDay)}
+                hoursNeededSeries={apiResult.rows?.map((r) => r.hours_needed_per_day ?? null) ?? []}
+                cpiIndex={apiResult.rows?.map((r) => r.cpi_index ?? null) ?? []}
+                earningsIndex={apiResult.rows?.map((r) => r.earnings_index ?? null) ?? []}
+                realIndex={apiResult.rows?.map((r) => r.real_index ?? null) ?? []}
+              />
+            )}
 
             <InflationMessageSection />
             <UnequalImpactSection />
