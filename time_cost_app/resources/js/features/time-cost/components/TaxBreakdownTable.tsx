@@ -1,57 +1,23 @@
+import { formatCurrency, hourlyRateFromMonthly, netFromGross, timeBucketRows } from "../timeCostMoney";
+
 type TaxBreakdownTableProps = {
   monthlyIncome: number | null;
   workHoursPerDay: number | null;
+  taxRate: number;
 };
 
-type Row = {
-  label: string;
-  hours: number;
-};
-
-const TAX_RATE = 0.3;
-
-const rows: Row[] = [
-  { label: "One hour", hours: 1 },
-  { label: "One day", hours: 0 },
-  { label: "One week", hours: 0 },
-  { label: "One month", hours: 0 },
-  { label: "One year", hours: 0 },
-];
-
-function formatCurrency(amount: number | null) {
-  if (!amount || !Number.isFinite(amount)) {
-    return "–";
-  }
-
-  try {
-    return new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 2,
-    }).format(amount);
-  } catch {
-    return amount.toFixed(2);
-  }
-}
-
-export default function TaxBreakdownTable({ monthlyIncome, workHoursPerDay }: TaxBreakdownTableProps) {
+export default function TaxBreakdownTable({ monthlyIncome, workHoursPerDay, taxRate }: TaxBreakdownTableProps) {
   const baseMonthly = monthlyIncome;
   const workHours = workHoursPerDay && workHoursPerDay > 0 ? workHoursPerDay : 8;
+  const safeRate = Number.isFinite(taxRate) ? Math.min(1, Math.max(0, taxRate)) : 0;
 
   if (!baseMonthly) {
     return null;
   }
 
-  const monthlyWorkHours = workHours * 5 * 4.33;
-  const hourlyRate = monthlyWorkHours > 0 ? baseMonthly / monthlyWorkHours : 0;
+  const hourlyRate = hourlyRateFromMonthly(baseMonthly, workHours);
 
-  const effectiveRows: Row[] = [
-    { label: "One hour", hours: 1 },
-    { label: "One day", hours: workHours },
-    { label: "One week", hours: workHours * 5 },
-    { label: "One month", hours: workHours * 5 * 4.33 },
-    { label: "One year", hours: workHours * 5 * 52 },
-  ];
+  const effectiveRows = timeBucketRows(workHours);
 
   return (
     <div className="w-full max-w-[900px] rounded-2xl border border-neutral-200 bg-white shadow-sm px-8 py-6">
@@ -81,7 +47,7 @@ export default function TaxBreakdownTable({ monthlyIncome, workHoursPerDay }: Ta
         <div className="flex flex-col gap-3">
           {effectiveRows.map((row) => {
             const gross = hourlyRate > 0 ? hourlyRate * row.hours : null;
-            const net = gross && gross > 0 ? gross * (1 - TAX_RATE) : null;
+            const net = gross != null ? netFromGross(gross, safeRate) : null;
 
             return (
               <div key={row.label} className="flex items-baseline justify-between gap-4 border-b last:border-b-0 border-neutral-100 py-2">
@@ -100,4 +66,3 @@ export default function TaxBreakdownTable({ monthlyIncome, workHoursPerDay }: Ta
     </div>
   );
 }
-

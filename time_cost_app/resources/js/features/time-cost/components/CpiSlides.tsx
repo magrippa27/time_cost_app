@@ -1,9 +1,22 @@
-import { useState } from "react";
 import CpiGauge from "./CpiGauge";
 
-export default function CpiSlides() {
-  const [cpiValue] = useState(() => Math.floor(Math.random() * 41) + 60);
+type CpiSlidesProps = {
+  cpiValue: number;
+  countryName: string;
+};
 
+function cpiHeadlinePrefix(countryName: string) {
+  if (countryName && countryName !== "—") {
+    return (
+      <>
+        Your country, {countryName}, has a corruption
+      </>
+    );
+  }
+  return <>Your country has a corruption</>;
+}
+
+export default function CpiSlides({ cpiValue, countryName }: CpiSlidesProps) {
   return (
     <div className="w-full bg-background-default-default">
       <section className="min-h-screen w-full flex items-start">
@@ -78,7 +91,13 @@ export default function CpiSlides() {
           <div className="relative min-h-screen px-6 py-16 lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
             <div className="lg:hidden space-y-8">
               <h3 className="m-0 text-[clamp(2rem,6vw,2.6rem)] font-semibold text-text-default-default leading-tight">
-                Your country has a corruption perception index of {cpiValue}
+                {countryName && countryName !== "—" ? (
+                  <>
+                    Your country, {countryName}, has a corruption perception index of {cpiValue}
+                  </>
+                ) : (
+                  <>Your country has a corruption perception index of {cpiValue}</>
+                )}
               </h3>
               <div className="flex justify-center">
                 <CpiGauge value={cpiValue} />
@@ -94,7 +113,7 @@ export default function CpiSlides() {
             <div className="hidden lg:block">
               <div className="absolute left-[60px] top-[254px] w-[987px]">
                 <h3 className="m-0 text-[48px] leading-[1.05] font-title-hero-font-family font-title-hero-font-weight text-text-default-default">
-                  Your country has a corruption
+                  {cpiHeadlinePrefix(countryName)}
                   <br />
                   perception index of {cpiValue}
                 </h3>

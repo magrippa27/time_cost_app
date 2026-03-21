@@ -1,5 +1,6 @@
 type TaxTimeSectionProps = {
   taxPortionOfYear?: number;
+  workHoursPerDay?: number;
 };
 
 const defaultTaxPortion = 7 / 12;
@@ -22,17 +23,24 @@ function getTaxSectorPath(portion: number) {
   return `M ${cx} ${cy} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
 }
 
-export default function TaxTimeSection({ taxPortionOfYear }: TaxTimeSectionProps) {
-  const portion = taxPortionOfYear && taxPortionOfYear > 0 && taxPortionOfYear < 1 ? taxPortionOfYear : defaultTaxPortion;
+
+export default function TaxTimeSection({ taxPortionOfYear, workHoursPerDay }: TaxTimeSectionProps) {
+  const portion =
+    taxPortionOfYear !== undefined && taxPortionOfYear > 0 && taxPortionOfYear < 1
+      ? taxPortionOfYear
+      : defaultTaxPortion;
+
+  const workHours = workHoursPerDay !== undefined && workHoursPerDay > 0 ? workHoursPerDay : 8;
+  const taxHoursDay = workHours * portion;
 
   const workdayBlocks = 12;
-  const taxedBlocksDay = Math.round(workdayBlocks * portion);
+  const taxedBlocksDay = Math.min(workdayBlocks, Math.max(0, Math.round(workdayBlocks * portion)));
 
   const weekDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-  const taxedDaysWeek = 3;
+  const taxedDaysWeek = Math.min(5, Math.max(0, Math.round(5 * portion)));
 
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const taxedMonthsYear = 3;
+  const taxedMonthsYear = Math.min(12, Math.max(0, Math.round(12 * portion)));
 
   const taxSectorPath = getTaxSectorPath(portion);
 
@@ -40,8 +48,9 @@ export default function TaxTimeSection({ taxPortionOfYear }: TaxTimeSectionProps
     <div className="flex flex-col gap-16">
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-10 items-center">
         <p className="text-base md:text-lg leading-relaxed text-neutral-800">
-          On a typical workday, you spend part of your time working only to pay taxes. It is similar to working from 8:00 am
-          until 3:00 pm for taxes, and the rest of the day for yourself.
+          On a typical workday, you spend part of your time working only to pay taxes. At roughly {(portion * 100).toFixed(0)}% of
+          your pay going to income tax in this model, that is about {taxHoursDay.toFixed(1)} hours of a {workHours}-hour workday for
+          taxes, and the rest for yourself.
         </p>
         <div className="flex items-center justify-center">
           <div className="relative h-32 w-32 rounded-full border-[6px] border-neutral-900 shadow-md bg-white flex items-center justify-center">
@@ -89,23 +98,38 @@ export default function TaxTimeSection({ taxPortionOfYear }: TaxTimeSectionProps
 
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1.2fr)] gap-10 items-center">
         <p className="text-base md:text-lg leading-relaxed text-neutral-800">
-          Over a full week, this becomes clearer. It is like working from Monday to Wednesday just to pay taxes, before you
-          start working for your own needs.
+          Over a full week, this becomes clearer.{" "}
+          {taxedDaysWeek < 1 ? (
+            <>In this illustration, almost none of the Monday–Friday workweek maps to taxes.</>
+          ) : (
+            <>
+              On a five-day workweek, that is roughly {taxedDaysWeek} of 5 weekdays (Monday–Friday) spent only to pay taxes in this
+              model,
+            </>
+          )}{" "}
+          before you start working for your own needs.
         </p>
         <div className="flex justify-center">
           <div className="rounded-2xl border border-neutral-200 bg-white px-6 py-4 shadow-sm">
             <div className="mb-3 text-sm font-medium text-neutral-700 text-center">This week</div>
             <div className="grid grid-cols-7 gap-2 text-xs">
-              {weekDays.map((day, index) => (
-                <div
-                  key={day}
-                  className={`flex h-10 flex-col items-center justify-center rounded-md border text-[11px] ${
-                    index < taxedDaysWeek ? "border-red-200 bg-red-50 text-red-700" : "border-neutral-200 bg-neutral-50 text-neutral-700"
-                  }`}
-                >
-                  <span className="font-medium">{day}</span>
-                </div>
-              ))}
+              {weekDays.map((day, index) => {
+                const isWeekday = index < 5;
+                const isTaxed = isWeekday && index < taxedDaysWeek;
+
+                return (
+                  <div
+                    key={day}
+                    className={`flex h-10 flex-col items-center justify-center rounded-md border text-[11px] ${
+                      isTaxed
+                        ? "border-red-200 bg-red-50 text-red-700"
+                        : "border-neutral-200 bg-neutral-50 text-neutral-700"
+                    }`}
+                  >
+                    <span className="font-medium">{day}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -113,8 +137,15 @@ export default function TaxTimeSection({ taxPortionOfYear }: TaxTimeSectionProps
 
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1.2fr)] gap-10 items-center">
         <p className="text-base md:text-lg leading-relaxed text-neutral-800">
-          Across an entire year, the effect is even stronger. It is comparable to working from January to March only to pay
-          taxes.
+          Across an entire year, the effect is even stronger.{" "}
+          {taxedMonthsYear < 1 ? (
+            <>In this illustration, almost none of the calendar year maps to taxes.</>
+          ) : (
+            <>
+              It is comparable to spending roughly the first {taxedMonthsYear} month{taxedMonthsYear === 1 ? "" : "s"} of the year
+              only to pay taxes.
+            </>
+          )}
         </p>
         <div className="flex justify-center">
           <div className="rounded-2xl border border-neutral-200 bg-white px-6 py-4 shadow-sm">
@@ -139,4 +170,3 @@ export default function TaxTimeSection({ taxPortionOfYear }: TaxTimeSectionProps
     </div>
   );
 }
-

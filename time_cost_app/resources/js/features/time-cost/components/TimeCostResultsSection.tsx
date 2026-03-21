@@ -1,4 +1,6 @@
 import { Card, CardContent, CardHeader } from "../../../shared/components/ui";
+import { getCpiScoreForCountryCode } from "../getCpiScore";
+import { getPitRateInfo } from "../getPitRate";
 import CpiSlides from "./CpiSlides";
 import DayDistributionPie from "./DayDistributionPie";
 import LocalTimePlayer from "./LocalTimePlayer";
@@ -28,6 +30,9 @@ export default function TimeCostResultsSection({
   countryName,
 }: TimeCostResultsSectionProps) {
   const workHours = parsePositiveNumber(submitted.workHoursPerDay) ?? 0;
+  const cpiValue = getCpiScoreForCountryCode(submitted.countryCode);
+  const pitInfo = getPitRateInfo(submitted.countryCode);
+  const taxRate = pitInfo.percent / 100;
 
   return (
     <>
@@ -79,21 +84,42 @@ export default function TimeCostResultsSection({
       />
 
       <div className="mt-10 flex flex-col items-center gap-10">
+        <div className="flex w-full max-w-3xl flex-col items-center gap-3 px-4 text-center">
+          <p className="text-sm text-neutral-700">
+            {countryName && countryName !== "—" ? (
+              <>
+                Estimated top personal income tax rate for <span className="font-semibold">{countryName}</span>:{" "}
+              </>
+            ) : (
+              <>Estimated top personal income tax rate: </>
+            )}
+            <span className="font-semibold">{pitInfo.percent}%</span>
+            {pitInfo.usedFallback ? (
+              <span className="text-neutral-500"> (default — no matching territory in the table)</span>
+            ) : null}
+          </p>
+          <p className="text-xs leading-relaxed text-neutral-500">
+            Illustrative only: headline marginal PIT from reference data; excludes social contributions, deductions, and local
+            rules.
+          </p>
+        </div>
+
         <h3 className="text-[clamp(1.8rem,3.3vw,2.4rem)] font-semibold text-text-default-default text-center">
           How much you get after taxes
         </h3>
         <TaxBreakdownTable
           monthlyIncome={parsePositiveNumber(submitted.monthlyIncome)}
           workHoursPerDay={parsePositiveNumber(submitted.workHoursPerDay)}
+          taxRate={taxRate}
         />
 
         <h3 className="mt-16 text-[clamp(1.8rem,3.3vw,2.4rem)] font-semibold text-text-default-default text-center">
           How much of your time is spent for paying taxes?
         </h3>
-        <TaxTimeSection />
+        <TaxTimeSection taxPortionOfYear={taxRate} workHoursPerDay={workHours > 0 ? workHours : 8} />
       </div>
 
-      <CpiSlides />
+      <CpiSlides cpiValue={cpiValue} countryName={countryName} />
     </>
   );
 }

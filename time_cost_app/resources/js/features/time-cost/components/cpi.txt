@@ -1,0 +1,188 @@
+68 Barbados
+68 Seychelles
+68 Taiwan
+66 France
+65 Lithuania
+64 Bahamas
+64 United States of
+America
+63 Brunei Darussalam
+63 Chile
+63 Korea, South
+63 Saint Vincent and the
+Grenadines
+62 Cape Verde
+62 Israel
+60 Dominica
+60 Latvia
+59 Czechia
+59 Saint Lucia
+58 Botswana
+58 Qatar
+58 Rwanda
+58 Slovenia
+57 Saudi Arabia
+45 Benin
+45 Romania
+45 Sao Tome and
+Principe
+44 Jamaica
+44 Solomon Islands
+44 Timor-Leste
+43 China
+43 Cote d'Ivoire
+43 Ghana
+43 Kosovo
+42 World
+42 Moldova
+41 South Africa
+41 Trinidad and Tobago
+41 Vietnam
+40 Bulgaria
+40 Burkina Faso
+40 Cuba
+40 Guyana
+40 Hungary
+40 North Macedonia
+40 Tanzania
+39 Albania
+39 India
+89 Denmark
+88 Finland
+84 Singapore
+81 New Zealand
+81 Norway
+80 Sweden
+80 Switzerland
+78 Luxembourg
+78 Netherlands
+77 Germany
+77 Iceland
+76 Australia
+76 Estonia
+76 Hong Kong
+76 Ireland
+75 Canada
+73 Uruguay
+71 Bhutan
+71 Japan
+70 United Kingdom
+69 Austria
+69 Belgium
+69 United Arab Emirates
+SCORE COUNTRY/TERRITORY
+56 Costa Rica
+56 Grenada
+56 Portugal
+55 Cyprus
+55 Fiji
+55 Spain
+53 Italy
+53 Poland
+52 Malaysia
+52 Oman
+50 Bahrain
+50 Georgia
+50 Greece
+50 Jordan
+49 Malta
+48 Mauritius
+48 Slovakia
+47 Croatia
+47 Vanuatu
+46 Armenia
+46 Kuwait
+46 Montenegro
+46 Namibia
+46 Senegal
+39 Maldives
+39 Morocco
+39 Tunisia
+38 Ethiopia
+38 Kazakhstan
+38 Suriname
+37 Colombia
+37 Dominican Republic
+37 Gambia
+37 Lesotho
+37 Zambia
+36 Argentina
+36 Belize
+36 Ukraine
+35 Brazil
+35 Sri Lanka
+34 Algeria
+34 Bosnia and
+Herzegovina
+34 Indonesia
+34 Laos
+34 Malawi
+34 Nepal
+34 Sierra Leone
+33 Ecuador
+33 Panama
+33 Serbia
+33 Thailand
+32 Angola
+32 El Salvador
+32 Philippines
+32 Togo
+31 Belarus
+31 Djibouti
+31 Mongolia
+31 Niger
+31 Türkiye
+31 Uzbekistan
+30 Azerbaijan
+30 Egypt
+30 Kenya
+30 Mauritania
+30 Peru
+29 Gabon
+28 Bolivia
+28 Iraq
+28 Liberia
+28 Mali
+28 Pakistan
+27 Mexico
+26 Cameroon
+26 Guatemala
+26 Guinea
+26 Kyrgyzstan
+26 Nigeria
+26 Papua New Guinea
+25 Madagascar
+25 Uganda
+24 Bangladesh
+24 Central African
+Republic
+24 Paraguay
+23 Congo
+23 Eswatini
+23 Iran
+23 Lebanon
+22 Chad
+22 Honduras
+22 Russia
+22 Zimbabwe
+21 Guinea Bissau
+21 Mozambique
+20 Cambodia
+20 Comoros
+20 Democratic Republic
+of the Congo
+19 Tajikistan
+17 Burundi
+17 Turkmenistan
+16 Afghanistan
+16 Haiti
+16 Myanmar
+15 Equatorial Guinea
+15 Korea, North
+15 Syria
+14 Nicaragua
+14 Sudan
+13 Eritrea
+13 Libya
+13 Yemen
+10 Venezuela 9 Somalia 9 South Sudan

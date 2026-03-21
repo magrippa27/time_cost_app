@@ -15,6 +15,23 @@ const SEGMENT_COLORS = [
   "#dc2626",
 ];
 
+const CHART_W = 260;
+const CHART_H = 220;
+const CX = CHART_W / 2;
+const CY = CHART_H / 2;
+const OUTER_RADIUS = 95;
+const START_ANGLE = 210;
+const END_ANGLE = -30;
+const LABEL_RADIUS = OUTER_RADIUS + 12;
+
+function polarToCartesian(cx: number, cy: number, radius: number, angleInDegrees: number) {
+  const rad = (Math.PI / 180) * angleInDegrees;
+  return {
+    x: cx + Math.cos(-rad) * radius,
+    y: cy + Math.sin(-rad) * radius,
+  };
+}
+
 export default function CpiGauge({ value }: CpiGaugeProps) {
   const safeValue = Number.isFinite(value) ? Math.min(Math.max(value, 0), 100) : 0;
   const segments = SEGMENT_COLORS.length;
@@ -27,17 +44,21 @@ export default function CpiGauge({ value }: CpiGaugeProps) {
     active: index < activeSegments,
   }));
 
+  const p0 = polarToCartesian(CX, CY, LABEL_RADIUS, START_ANGLE);
+  const p100 = polarToCartesian(CX, CY, LABEL_RADIUS, END_ANGLE);
+
   return (
-    <div className="relative w-full max-w-[260px] h-[220px]">
-        <ResponsiveContainer>
-          <PieChart>
+    <div className="relative mx-auto w-full max-w-[260px] aspect-[260/220]">
+      <div className="absolute inset-0">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
             <Pie
               data={data}
               dataKey="value"
-              startAngle={210}
-              endAngle={-30}
+              startAngle={START_ANGLE}
+              endAngle={END_ANGLE}
               innerRadius={55}
-              outerRadius={95}
+              outerRadius={OUTER_RADIUS}
               stroke="#111827"
               strokeWidth={0.8}
             >
@@ -63,13 +84,32 @@ export default function CpiGauge({ value }: CpiGaugeProps) {
             />
           </PieChart>
         </ResponsiveContainer>
-      <div className="pointer-events-none absolute left-[15%] top-[18%] -translate-x-1/2 text-[10px] text-neutral-800">
-        100
       </div>
-      <div className="pointer-events-none absolute right-[5%] top-1/2 -translate-y-1/2 text-[10px] text-neutral-800">
-        0
-      </div>
+      <svg
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        viewBox={`0 0 ${CHART_W} ${CHART_H}`}
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden
+      >
+        <text
+          x={p0.x}
+          y={p0.y}
+          textAnchor="middle"
+          dominantBaseline="central"
+          className="fill-neutral-800 text-[10px]"
+        >
+          0
+        </text>
+        <text
+          x={p100.x}
+          y={p100.y}
+          textAnchor="middle"
+          dominantBaseline="central"
+          className="fill-neutral-800 text-[10px]"
+        >
+          100
+        </text>
+      </svg>
     </div>
   );
 }
-

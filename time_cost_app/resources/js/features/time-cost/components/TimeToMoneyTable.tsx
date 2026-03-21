@@ -1,36 +1,9 @@
+import { formatCurrency, hourlyRateFromMonthly, timeBucketRows } from "../timeCostMoney";
+
 type TimeToMoneyTableProps = {
   monthlyIncome: number | null;
   workHoursPerDay: number | null;
 };
-
-type Row = {
-  label: string;
-  hours: number;
-};
-
-const rows: Row[] = [
-  { label: "One hour", hours: 1 },
-  { label: "One day", hours: 0 },
-  { label: "One week", hours: 0 },
-  { label: "One month", hours: 0 },
-  { label: "One year", hours: 0 },
-];
-
-function formatCurrency(amount: number | null) {
-  if (!amount || !Number.isFinite(amount)) {
-    return "–";
-  }
-
-  try {
-    return new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 2,
-    }).format(amount);
-  } catch {
-    return amount.toFixed(2);
-  }
-}
 
 export default function TimeToMoneyTable({ monthlyIncome, workHoursPerDay }: TimeToMoneyTableProps) {
   const baseMonthly = monthlyIncome;
@@ -44,16 +17,9 @@ export default function TimeToMoneyTable({ monthlyIncome, workHoursPerDay }: Tim
     );
   }
 
-  const monthlyWorkHours = workHours * 5 * 4.33;
-  const hourlyRate = monthlyWorkHours > 0 ? baseMonthly / monthlyWorkHours : 0;
+  const hourlyRate = hourlyRateFromMonthly(baseMonthly, workHours);
 
-  const effectiveRows: Row[] = [
-    { label: "One hour", hours: 1 },
-    { label: "One day", hours: workHours },
-    { label: "One week", hours: workHours * 5 },
-    { label: "One month", hours: workHours * 5 * 4.33 },
-    { label: "One year", hours: workHours * 5 * 52 },
-  ];
+  const effectiveRows = timeBucketRows(workHours);
 
   return (
     <div className="mb-20 flex flex-col items-center gap-8">
@@ -85,4 +51,3 @@ export default function TimeToMoneyTable({ monthlyIncome, workHoursPerDay }: Tim
     </div>
   );
 }
-
