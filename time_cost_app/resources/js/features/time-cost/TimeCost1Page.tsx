@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import HeroImage from "../../assets/clock.jpg";
 import CountrySelect, { getCountryName } from "../../shared/components/CountrySelect";
 import Star from "../../shared/components/Star";
@@ -6,9 +6,6 @@ import { Input } from "../../shared/components/ui";
 import TimeCostResultsSection from "./components/TimeCostResultsSection";
 
 export default function TimeCost1Page() {
-  const resultsRef = useRef<HTMLDivElement>(null);
-  const taxSectionRef = useRef<HTMLDivElement | null>(null);
-  const cpiSectionRef = useRef<HTMLDivElement | null>(null);
   const [country, setCountry] = useState("");
   const [age, setAge] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
@@ -24,32 +21,19 @@ export default function TimeCost1Page() {
   } | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!submitted) {
-      return;
-    }
-    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    const t1 = window.setTimeout(() => {
-      taxSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 3800);
-    const t2 = window.setTimeout(() => {
-      cpiSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 7600);
-    return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-    };
-  }, [submitted]);
-
   function parsePositiveNumber(value: string) {
     const trimmed = value.trim();
+
     if (!trimmed) {
       return null;
     }
+
     const parsed = Number(trimmed.replace(/,/g, ""));
+
     if (!Number.isFinite(parsed) || parsed <= 0) {
       return null;
     }
+
     return parsed;
   }
 
@@ -62,12 +46,16 @@ export default function TimeCost1Page() {
 
     if (!income) {
       setValidationError("Add at least one valid monthly income to continue.");
+
       return;
     }
+
     if (!work || safeWork <= 0 || safeWork + sleep > 24) {
       setValidationError("Hours you work per day must be between 0 and 16.");
+
       return;
     }
+
     setValidationError(null);
     setIsSubmitting(true);
     setSubmitted({
@@ -165,16 +153,11 @@ export default function TimeCost1Page() {
         </div>
 
         {submitted && (
-          <div
-            ref={resultsRef}
-            className="scroll-mt-8 transition-all duration-500"
-          >
+          <div>
             <TimeCostResultsSection
               submitted={submitted}
               parsePositiveNumber={parsePositiveNumber}
               countryName={getCountryName(submitted.countryCode) || ""}
-              taxSectionRef={taxSectionRef}
-              cpiSectionRef={cpiSectionRef}
             />
           </div>
         )}

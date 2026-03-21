@@ -56,6 +56,7 @@ export default function TaxTimeSection({ taxPortionOfYear }: TaxTimeSectionProps
                 const y1 = 50 - innerRadius * Math.cos(angle);
                 const x2 = 50 + outerRadius * Math.sin(angle);
                 const y2 = 50 - outerRadius * Math.cos(angle);
+
                 return (
                   <g key={index}>
                     <line

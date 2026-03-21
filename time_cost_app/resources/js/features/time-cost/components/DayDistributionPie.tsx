@@ -56,6 +56,7 @@ export default function DayDistributionPie({ workHours, sleepHours, leisureHours
             formatter={(value, name) => {
               const numericValue = typeof value === "number" ? value : Number(value);
               const percent = (numericValue / 24) * 100;
+
               return [`${percent.toFixed(1)}%`, name];
             }}
           />

@@ -1,48 +1,24 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useState } from "react";
 import CpiGauge from "./CpiGauge";
 
-type CpiSlidesProps = {
-  autoAdvance?: boolean;
-};
-
-export default function CpiSlides({ autoAdvance = true }: CpiSlidesProps) {
-  const slide1Ref = useRef<HTMLElement | null>(null);
-  const slide2Ref = useRef<HTMLElement | null>(null);
-  const slide3Ref = useRef<HTMLElement | null>(null);
-
-  const cpiValue = useMemo(() => Math.floor(Math.random() * 41) + 60, []);
-  useEffect(() => {
-    if (!autoAdvance) {
-      return;
-    }
-    const t1 = window.setTimeout(() => slide2Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 2600);
-    const t2 = window.setTimeout(() => slide3Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 5600);
-    return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-    };
-  }, [autoAdvance]);
+export default function CpiSlides() {
+  const [cpiValue] = useState(() => Math.floor(Math.random() * 41) + 60);
 
   return (
     <div className="w-full bg-background-default-default">
-      <section
-        ref={slide1Ref}
-        className="min-h-screen w-full flex items-start"
-      >
+      <section className="min-h-screen w-full flex items-start">
         <div className="max-w-[1440px] mx-auto w-full">
           <div className="relative min-h-screen px-6 py-16 lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
-            <div className="lg:hidden">
-              <div className="text-center">
-                <h2 className="m-0 text-[clamp(2.6rem,7vw,3.6rem)] leading-[1.05] font-title-hero-font-family font-title-hero-font-weight tracking-[-1.2px] text-text-default-default">
-                  What then?
-                </h2>
-              </div>
+            <div className="lg:hidden text-left">
+              <h2 className="m-0 text-[clamp(2.6rem,7vw,3.6rem)] leading-[1.05] font-title-hero-font-family font-title-hero-font-weight tracking-[-1.2px] text-text-default-default">
+                What then?
+              </h2>
               <div className="mt-10 space-y-8">
                 <p className="text-sm leading-[1.45] text-neutral-800">
                   Taxes are a necessary part of society. They help maintain healthcare, security, education, infrastructure,
                   and common services. In this sense, investing part of your time into taxes is fair and necessary.
                 </p>
-                <p className="text-[clamp(1.8rem,6vw,2.4rem)] leading-[1.1] font-semibold text-text-default-default">
+                <p className="m-0 text-[clamp(1.8rem,6vw,2.4rem)] leading-[1.1] font-semibold text-text-default-default">
                   But your time is limited.
                 </p>
                 <p className="text-sm leading-[1.45] text-neutral-800">
@@ -53,8 +29,8 @@ export default function CpiSlides({ autoAdvance = true }: CpiSlidesProps) {
             </div>
 
             <div className="hidden lg:block">
-              <div className="absolute left-[503px] top-[145px] w-[389px] h-[86px] flex items-center justify-center">
-                <h2 className="m-0 text-[64px] leading-[86px] font-title-hero-font-family font-title-hero-font-weight tracking-[-1.4px] text-text-default-default">
+              <div className="absolute left-[503px] top-[145px] w-[389px] h-[86px] flex items-center justify-start">
+                <h2 className="m-0 text-[64px] leading-[86px] font-title-hero-font-family font-title-hero-font-weight tracking-[-1.4px] text-text-default-default text-left">
                   What then?
                 </h2>
               </div>
@@ -69,7 +45,7 @@ export default function CpiSlides({ autoAdvance = true }: CpiSlidesProps) {
                 </p>
               </div>
 
-              <div className="absolute left-[895px] top-[518px] w-[334px]">
+              <div className="absolute left-[503px] top-[518px] w-[389px]">
                 <p className="m-0 text-[44px] leading-[1.05] font-semibold text-text-default-default text-left">
                   But your time
                   <br />
@@ -97,10 +73,7 @@ export default function CpiSlides({ autoAdvance = true }: CpiSlidesProps) {
         </div>
       </section>
 
-      <section
-        ref={slide2Ref}
-        className="min-h-screen w-full flex items-center"
-      >
+      <section className="min-h-screen w-full flex items-center">
         <div className="max-w-[1440px] mx-auto w-full">
           <div className="relative min-h-screen px-6 py-16 lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
             <div className="lg:hidden space-y-8">
@@ -156,12 +129,9 @@ export default function CpiSlides({ autoAdvance = true }: CpiSlidesProps) {
         </div>
       </section>
 
-      <section
-        ref={slide3Ref}
-        className="min-h-screen w-full flex items-center"
-      >
+      <section className="min-h-screen w-full flex items-center">
         <div className="max-w-[1440px] mx-auto w-full">
-          <div className="relative min-h-screen px-6 py-16 lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
+          <div className="relative min-h-screen px-6 py-16 lg:min-h-[1420px] lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24 lg:pb-24">
             <div className="lg:hidden space-y-10">
               <h3 className="m-0 text-[clamp(2rem,6vw,2.8rem)] font-semibold text-text-default-default">Get involved.</h3>
               <div className="space-y-3">
@@ -177,12 +147,12 @@ export default function CpiSlides({ autoAdvance = true }: CpiSlidesProps) {
               <h3 className="m-0 text-[clamp(1.9rem,6vw,2.7rem)] font-semibold text-text-default-default">
                 Time is all you truly have.
               </h3>
-              <div className="pt-8 space-y-3">
-                <p className="text-sm leading-[1.45] text-neutral-800">
+              <blockquote className="mx-auto mt-10 mb-16 max-w-2xl border-r-4 border-neutral-300 pr-6 py-2 italic text-right text-[20px] leading-[1.5] text-neutral-900">
+                <p className="m-0">
                   “The price good men pay for indifference to public affairs is to be ruled by inferior men.”
                 </p>
-                <p className="text-sm text-neutral-600">— Plato</p>
-              </div>
+                <footer className="mt-2 not-italic text-[18px] text-neutral-500">— Plato</footer>
+              </blockquote>
             </div>
 
             <div className="hidden lg:block">
@@ -222,12 +192,12 @@ export default function CpiSlides({ autoAdvance = true }: CpiSlidesProps) {
                 </h3>
               </div>
 
-              <div className="absolute left-[575px] top-[1115px] w-[802px]">
-                <p className="m-0 text-[18px] leading-[1.6] text-neutral-900">
+              <blockquote className="absolute left-1/2 top-[1080px] w-[min(802px,calc(100%-3rem))] max-w-[802px] -translate-x-1/2 border-r-4 border-neutral-300 pr-6 py-2 italic text-right text-[20px] leading-[1.5] text-neutral-900">
+                <p className="m-0">
                   “The price good men pay for indifference to public affairs is to be ruled by inferior men.”
                 </p>
-                <p className="mt-4 text-[16px] leading-[1.4] font-semibold text-neutral-900">— Plato</p>
-              </div>
+                <footer className="mt-2 not-italic text-[18px] text-neutral-500">— Plato</footer>
+              </blockquote>
             </div>
           </div>
         </div>

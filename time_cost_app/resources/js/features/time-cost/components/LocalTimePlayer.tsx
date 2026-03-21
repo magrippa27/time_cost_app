@@ -12,6 +12,7 @@ export default function LocalTimePlayer() {
     if (!audioRef.current) {
       return;
     }
+
     function handlePlay() {
       setIsPlaying(true);
     }
@@ -20,16 +21,20 @@ export default function LocalTimePlayer() {
     }
     function handleTimeUpdate() {
       const audio = audioRef.current;
+
       if (!audio || !Number.isFinite(audio.currentTime)) {
         return;
       }
+
       setCurrentTime(audio.currentTime);
     }
     function handleLoaded() {
       const audio = audioRef.current;
+
       if (!audio || !Number.isFinite(audio.duration)) {
         return;
       }
+
       setDuration(audio.duration);
     }
     const audio = audioRef.current;
@@ -38,6 +43,7 @@ export default function LocalTimePlayer() {
     audio.addEventListener("timeupdate", handleTimeUpdate);
     audio.addEventListener("loadedmetadata", handleLoaded);
     audio.addEventListener("ended", handlePause);
+
     return () => {
       audio.removeEventListener("play", handlePlay);
       audio.removeEventListener("pause", handlePause);
@@ -49,17 +55,22 @@ export default function LocalTimePlayer() {
 
   function togglePlay() {
     const audio = audioRef.current;
+
     if (!audio) {
       return;
     }
+
     if (isPlaying) {
       audio.pause();
+
       return;
     }
+
     if (audio.currentTime < 1) {
       audio.currentTime = 41;
       setCurrentTime(41);
     }
+
     audio
       .play()
       .then(() => {
@@ -70,9 +81,11 @@ export default function LocalTimePlayer() {
 
   function handleSeek(event: React.MouseEvent<HTMLDivElement>) {
     const audio = audioRef.current;
+
     if (!audio || !duration || !Number.isFinite(duration)) {
       return;
     }
+
     const rect = event.currentTarget.getBoundingClientRect();
     const ratio = (event.clientX - rect.left) / rect.width;
     const nextTime = Math.min(Math.max(ratio, 0), 1) * duration;
@@ -86,10 +99,12 @@ export default function LocalTimePlayer() {
     if (!Number.isFinite(value) || value < 0) {
       return "0:00";
     }
+
     const totalSeconds = Math.floor(value);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
     const paddedSeconds = seconds.toString().padStart(2, "0");
+
     return `${minutes}:${paddedSeconds}`;
   }
 

@@ -20,6 +20,7 @@ function formatCurrency(amount: number | null) {
   if (!amount || !Number.isFinite(amount)) {
     return "–";
   }
+
   try {
     return new Intl.NumberFormat(undefined, {
       style: "currency",
@@ -69,6 +70,7 @@ export default function TimeToMoneyTable({ monthlyIncome, workHoursPerDay }: Tim
         <div className="flex flex-col gap-3">
           {effectiveRows.map((row) => {
             const amount = hourlyRate > 0 ? hourlyRate * row.hours : null;
+
             return (
               <div key={row.label} className="flex items-baseline justify-between gap-4 border-b last:border-b-0 border-neutral-100 py-2">
                 <span className="text-sm md:text-base text-neutral-600">{row.label}</span>

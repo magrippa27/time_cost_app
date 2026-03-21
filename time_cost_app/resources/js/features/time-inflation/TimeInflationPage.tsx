@@ -3,11 +3,9 @@ import HeroImage from "../../assets/coins.jpg";
 import CountrySelect, { getCountryName } from "../../shared/components/CountrySelect";
 import Star from "../../shared/components/Star";
 import { Input } from "../../shared/components/ui";
-import ClosingMessageSection from "./components/ClosingMessageSection";
 import CountryStorySection from "./components/CountryStorySection";
 import DefinitionsSection from "./components/DefinitionsSection";
-import InflationMessageSection from "./components/InflationMessageSection";
-import UnequalImpactSection from "./components/UnequalImpactSection";
+import InflationClosingSlides from "./components/InflationClosingSlides";
 import UserInfoCard from "./components/UserInfoCard";
 
 export default function TimeInflationPage() {
@@ -62,6 +60,7 @@ export default function TimeInflationPage() {
     if (!submitted) {
       return;
     }
+
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     const t = window.setTimeout(() => {
       definitionsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -69,6 +68,7 @@ export default function TimeInflationPage() {
     const t2 = window.setTimeout(() => {
       countryStoryRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 4600);
+
     return () => {
       window.clearTimeout(t);
       window.clearTimeout(t2);
@@ -77,26 +77,35 @@ export default function TimeInflationPage() {
 
   function parsePositiveNumber(value: string) {
     const trimmed = value.trim();
+
     if (!trimmed) {
       return null;
     }
+
     const parsed = Number(trimmed.replace(/,/g, ""));
+
     if (!Number.isFinite(parsed) || parsed <= 0) {
       return null;
     }
+
     return parsed;
   }
 
   function handleProceed() {
     const safeHours = parsePositiveNumber(hoursPerDay);
+
     if (!country) {
       setValidationError("Select a country to continue.");
+
       return;
     }
+
     if (!safeHours) {
       setValidationError("Enter a valid positive number of hours per day.");
+
       return;
     }
+
     setValidationError(null);
     setIsSubmitting(true);
     setSubmitted({
@@ -133,26 +142,34 @@ export default function TimeInflationPage() {
     })
       .then(async (resp) => {
         const data = await resp.json().catch(() => null);
+
         if (!resp.ok) {
           if (data?.debug) {
             console.log("time-inflation debug (error)", data.debug);
           }
+
           const msg = (data && typeof data.message === "string" && data.message) || `Request failed (${resp.status}).`;
+
           throw new Error(msg);
         }
+
         if (!data || typeof data.success !== "boolean") {
           throw new Error("Invalid server response.");
         }
+
         if (!data.success) {
           if (data?.debug) {
             console.log("time-inflation debug (success=false)", data.debug);
           }
+
           throw new Error(data.message || "Failed to compute time-inflation data.");
         }
+
         return data;
       })
       .then((data) => {
         setApiResult(data);
+
         if ((data as any)?.debug) {
           console.log("time-inflation debug", (data as any).debug);
           console.log("time-inflation usedWageSource", data.usedWageSource);
@@ -164,6 +181,7 @@ export default function TimeInflationPage() {
         if (e instanceof DOMException && e.name === "AbortError") {
           return;
         }
+
         setApiError(e instanceof Error ? e.message : "Failed to load inflation data.");
       })
       .finally(() => {
@@ -302,13 +320,11 @@ export default function TimeInflationPage() {
                 realIndex={apiResult.rows?.map((r) => r.real_index ?? null) ?? []}
               />
             )}
-
-            <InflationMessageSection />
-            <UnequalImpactSection />
-            <ClosingMessageSection />
           </div>
         )}
       </div>
+
+      {submitted && <InflationClosingSlides />}
     </div>
   );
 }

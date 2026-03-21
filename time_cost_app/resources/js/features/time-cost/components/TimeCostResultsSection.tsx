@@ -1,12 +1,11 @@
-import type { RefObject } from "react";
 import { Card, CardContent, CardHeader } from "../../../shared/components/ui";
+import CpiSlides from "./CpiSlides";
 import DayDistributionPie from "./DayDistributionPie";
 import LocalTimePlayer from "./LocalTimePlayer";
 import TaxBreakdownTable from "./TaxBreakdownTable";
 import TaxTimeSection from "./TaxTimeSection";
-import TimeToMoneyTable from "./TimeToMoneyTable";
-import CpiSlides from "./CpiSlides";
 import TimeCostUserInfoCard from "./TimeCostUserInfoCard";
+import TimeToMoneyTable from "./TimeToMoneyTable";
 
 type Submitted = {
   countryCode: string;
@@ -21,16 +20,12 @@ type TimeCostResultsSectionProps = {
   submitted: Submitted;
   parsePositiveNumber: (value: string) => number | null;
   countryName: string;
-  taxSectionRef: RefObject<HTMLDivElement | null>;
-  cpiSectionRef: RefObject<HTMLDivElement | null>;
 };
 
 export default function TimeCostResultsSection({
   submitted,
   parsePositiveNumber,
   countryName,
-  taxSectionRef,
-  cpiSectionRef,
 }: TimeCostResultsSectionProps) {
   const workHours = parsePositiveNumber(submitted.workHoursPerDay) ?? 0;
 
@@ -83,10 +78,7 @@ export default function TimeCostResultsSection({
         workHoursPerDay={parsePositiveNumber(submitted.workHoursPerDay)}
       />
 
-      <div
-        ref={taxSectionRef}
-        className="mt-10 flex flex-col items-center gap-10"
-      >
+      <div className="mt-10 flex flex-col items-center gap-10">
         <h3 className="text-[clamp(1.8rem,3.3vw,2.4rem)] font-semibold text-text-default-default text-center">
           How much you get after taxes
         </h3>
@@ -101,9 +93,7 @@ export default function TimeCostResultsSection({
         <TaxTimeSection />
       </div>
 
-      <div ref={cpiSectionRef}>
-        <CpiSlides />
-      </div>
+      <CpiSlides />
     </>
   );
 }
