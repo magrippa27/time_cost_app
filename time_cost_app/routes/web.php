@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DemocracyController;
+use App\Http\Controllers\DemocracyPostController;
 use App\Http\Controllers\TimeInflationController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return auth()->check()
@@ -18,7 +20,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::redirect('/time-cost-6', '/democracy');
     Route::redirect('/time-cost-3', '/about');
 
-    Route::inertia('/democracy', 'democracy')->name('democracy');
+    Route::get('/democracy', [DemocracyController::class, 'index'])->name('democracy');
+    Route::post('/democracy/posts', [DemocracyPostController::class, 'store'])->name('democracy.posts.store');
+    Route::patch('/democracy/posts/{democracy_post}', [DemocracyPostController::class, 'update'])->name('democracy.posts.update');
+    Route::delete('/democracy/posts/{democracy_post}', [DemocracyPostController::class, 'destroy'])->name('democracy.posts.destroy');
     Route::inertia('/about', 'about')->name('about');
 });
 
