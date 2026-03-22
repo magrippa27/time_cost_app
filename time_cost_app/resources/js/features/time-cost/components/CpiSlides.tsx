@@ -13,7 +13,36 @@ function cpiHeadlinePrefix(countryName: string) {
       </>
     );
   }
+
   return <>Your country has a corruption</>;
+}
+
+function CpiScaleExplanation({ variant }: { variant: "mobile" | "desktop" }) {
+  const titleClass =
+    variant === "desktop"
+      ? "m-0 text-[18px] leading-[1.35] font-title-hero-font-family font-title-hero-font-weight tracking-[0.08em] uppercase text-neutral-900"
+      : "m-0 text-[clamp(0.95rem,3.2vw,1.05rem)] leading-[1.35] font-title-hero-font-family font-title-hero-font-weight tracking-[0.06em] uppercase text-neutral-900";
+
+  const bodyClass =
+    variant === "desktop"
+      ? "m-0 mt-4 text-[14px] leading-[1.45] text-neutral-800"
+      : "m-0 mt-4 text-sm leading-[1.45] text-neutral-800";
+
+  return (
+    <div className="w-full max-w-xl">
+      <p className={titleClass}>
+        The CPI uses a scale from <span className="font-extrabold">0 to 100</span>
+      </p>
+      <div className="mt-3 flex items-center gap-2">
+        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-900" />
+        <div className="h-px flex-1 max-w-[200px] bg-neutral-900" />
+      </div>
+      <p className={bodyClass}>
+        On this scale, <span className="font-semibold">100 is very clean</span> and <span className="font-semibold">0 is highly corrupt</span>
+        —lower scores mean more perceived corruption.
+      </p>
+    </div>
+  );
 }
 
 export default function CpiSlides({ cpiValue, countryName }: CpiSlidesProps) {
@@ -102,6 +131,7 @@ export default function CpiSlides({ cpiValue, countryName }: CpiSlidesProps) {
               <div className="flex justify-center">
                 <CpiGauge value={cpiValue} />
               </div>
+              <CpiScaleExplanation variant="mobile" />
               <p className="text-sm leading-[1.45] text-neutral-800">
                 This means there is a higher risk that part of your time, paid through taxes, does not turn into real public benefit.
               </p>
@@ -128,19 +158,8 @@ export default function CpiSlides({ cpiValue, countryName }: CpiSlidesProps) {
               <div className="absolute left-[60px] top-[459px] w-[620px] h-[270px] flex items-center">
                 <CpiGauge value={cpiValue} />
                 <div className="ml-10 h-[120px] w-px bg-neutral-300" />
-                <div className="ml-10 flex-1">
-                  <p className="m-0 text-[18px] leading-[1.35] font-title-hero-font-family font-title-hero-font-weight tracking-[0.08em] uppercase text-neutral-900">
-                    The CPI uses a scale from <span className="font-extrabold">0 to 100</span>
-                  </p>
-                  <div className="mt-4 text-[14px] leading-[1.4] text-neutral-800">
-                    <p className="m-0">
-                      <span>100 is </span>
-                      <span className="font-semibold">very clean</span>
-                      <span> and 0 is </span>
-                      <span className="font-semibold">highly corrupt</span>
-                      <span>.</span>
-                    </p>
-                  </div>
+                <div className="ml-10 flex-1 min-w-0">
+                  <CpiScaleExplanation variant="desktop" />
                 </div>
               </div>
             </div>

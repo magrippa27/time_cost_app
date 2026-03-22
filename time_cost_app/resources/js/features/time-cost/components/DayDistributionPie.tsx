@@ -1,4 +1,11 @@
-import { ResponsiveContainer, PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
+import {
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  type PieLabelRenderProps,
+} from "recharts";
 
 type DayDistributionPieProps = {
   workHours: number;
@@ -7,6 +14,54 @@ type DayDistributionPieProps = {
 };
 
 const COLORS = ["#3b82f6", "#22c55e", "#f97316", "#6b7280"];
+
+function formatHours(value: number) {
+  return Number.isInteger(value) ? `${value}h` : `${value.toFixed(1)}h`;
+}
+
+function SliceLabel(props: PieLabelRenderProps) {
+  const { cx, cy, midAngle, innerRadius, outerRadius, percent, value } = props;
+  if (
+    cx == null ||
+    cy == null ||
+    midAngle == null ||
+    innerRadius == null ||
+    outerRadius == null ||
+    percent == null ||
+    value == null
+  ) {
+    return null;
+  }
+
+  if (percent < 0.04) {
+    return null;
+  }
+
+  const RADIAN = Math.PI / 180;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.52;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  const pct = (percent * 100).toFixed(0);
+  const h = formatHours(Number(value));
+
+  return (
+    <text
+      x={x}
+      y={y}
+      textAnchor="middle"
+      dominantBaseline="central"
+      className="fill-white font-semibold"
+      style={{ fontSize: 11, textShadow: "0 1px 2px rgba(0,0,0,0.4)" }}
+    >
+      <tspan x={x} dy="-0.35em">
+        {h}
+      </tspan>
+      <tspan x={x} dy="1.05em" style={{ fontSize: 10, opacity: 0.95 }}>
+        {pct}%
+      </tspan>
+    </text>
+  );
+}
 
 export default function DayDistributionPie({ workHours, sleepHours, leisureHours }: DayDistributionPieProps) {
   const safeWork = workHours > 0 && Number.isFinite(workHours) ? workHours : 0;
@@ -36,34 +91,66 @@ export default function DayDistributionPie({ workHours, sleepHours, leisureHours
   }
 
   return (
-    <div className="w-full h-[260px]">
-      <ResponsiveContainer>
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={90}
-            paddingAngle={3}
-          >
-            {data.map((entry, index) => (
-              <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip
-            formatter={(value, name) => {
-              const numericValue = typeof value === "number" ? value : Number(value);
-              const percent = (numericValue / 24) * 100;
+    <div className="w-full">
+      <div className="h-[200px] w-full sm:h-[220px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={88}
+              paddingAngle={3}
+              label={SliceLabel}
+              labelLine={false}
+              isAnimationActive={false}
+            >
+              {data.map((entry, index) => (
+                <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip
+              formatter={(value) => {
+                const numericValue = typeof value === "number" ? value : Number(value);
+                const pctOfDay = (numericValue / 24) * 100;
+                return [`${formatHours(numericValue)} · ${pctOfDay.toFixed(1)}% of day`, "Hours"];
+              }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
 
-              return [`${percent.toFixed(1)}%`, name];
-            }}
-          />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+      <ul className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2" aria-label="Day breakdown by category">
+        {data.map((entry, index) => {
+          const pctOfDay = (entry.value / 24) * 100;
+          const color = COLORS[index % COLORS.length];
+          return (
+            <li
+              key={entry.name}
+              className="flex items-center justify-between gap-3 rounded-lg border border-neutral-100 bg-neutral-50/80 px-3 py-2.5 text-sm"
+            >
+              <span className="flex min-w-0 items-center gap-2.5">
+                <span
+                  className="h-3 w-3 shrink-0 rounded-sm ring-1 ring-black/5"
+                  style={{ backgroundColor: color }}
+                  aria-hidden
+                />
+                <span className="font-medium text-neutral-800">{entry.name}</span>
+              </span>
+              <span className="shrink-0 tabular-nums text-neutral-600">
+                <span className="font-semibold text-neutral-900">{formatHours(entry.value)}</span>
+                <span className="mx-1.5 text-neutral-300" aria-hidden>
+                  ·
+                </span>
+                <span>{pctOfDay.toFixed(1)}%</span>
+                <span className="sr-only"> of the day</span>
+              </span>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
-

@@ -23,6 +23,10 @@ function getTaxSectorPath(portion: number) {
   return `M ${cx} ${cy} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
 }
 
+const panelClass =
+  "rounded-xl border border-neutral-200/90 bg-white px-5 py-5 shadow-md shadow-neutral-950/5 ring-1 ring-neutral-950/[0.04] sm:px-6";
+
+const proseClass = "m-0 text-base leading-relaxed text-neutral-800 md:text-lg";
 
 export default function TaxTimeSection({ taxPortionOfYear, workHoursPerDay }: TaxTimeSectionProps) {
   const portion =
@@ -45,18 +49,20 @@ export default function TaxTimeSection({ taxPortionOfYear, workHoursPerDay }: Ta
   const taxSectorPath = getTaxSectorPath(portion);
 
   return (
-    <div className="flex flex-col gap-16">
-      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] gap-10 items-center">
-        <p className="text-base md:text-lg leading-relaxed text-neutral-800">
-          On a typical workday, you spend part of your time working only to pay taxes. At roughly {(portion * 100).toFixed(0)}% of
-          your pay going to income tax in this model, that is about {taxHoursDay.toFixed(1)} hours of a {workHours}-hour workday for
-          taxes, and the rest for yourself.
-        </p>
-        <div className="flex items-center justify-center">
-          <div className="relative h-32 w-32 rounded-full border-[6px] border-neutral-900 shadow-md bg-white flex items-center justify-center">
-            <svg viewBox="0 0 100 100" className="h-28 w-28 text-neutral-900">
-              <circle cx="50" cy="50" r="48" fill="#f4f4f5" stroke="currentColor" strokeWidth="2" />
-              <path d={taxSectorPath} fill="#fecaca" fillOpacity="0.7" />
+    <div className="flex w-full flex-col gap-12 sm:gap-14">
+      <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-10">
+        <div className="rounded-xl border border-neutral-100 bg-neutral-50/40 px-5 py-5 ring-1 ring-neutral-950/[0.02] sm:px-6">
+          <p className={proseClass}>
+            On a typical workday, you spend part of your time working only to pay taxes. At roughly {(portion * 100).toFixed(0)}%
+            of your pay going to income tax in this model, that is about {taxHoursDay.toFixed(1)} hours of a {workHours}-hour
+            workday for taxes, and the rest for yourself.
+          </p>
+        </div>
+        <div className="flex justify-center">
+          <div className="relative flex h-32 w-32 items-center justify-center rounded-full border-[5px] border-neutral-800/90 bg-white shadow-md ring-1 ring-neutral-950/10">
+            <svg viewBox="0 0 100 100" className="h-28 w-28 text-neutral-800">
+              <circle cx="50" cy="50" r="48" fill="#fafafa" stroke="currentColor" strokeWidth="1.5" />
+              <path d={taxSectorPath} fill="#fecaca" fillOpacity="0.85" />
               {Array.from({ length: 12 }).map((_, index) => {
                 const angle = (index / 12) * 2 * Math.PI;
                 const innerRadius = index % 3 === 0 ? 38 : 42;
@@ -73,7 +79,7 @@ export default function TaxTimeSection({ taxPortionOfYear, workHoursPerDay }: Ta
                       y1={y1}
                       x2={x2}
                       y2={y2}
-                      stroke={index < taxedBlocksDay ? "#ef4444" : "#111827"}
+                      stroke={index < taxedBlocksDay ? "#dc2626" : "#1f2937"}
                       strokeWidth={index % 3 === 0 ? 2 : 1}
                     />
                     <text
@@ -81,38 +87,42 @@ export default function TaxTimeSection({ taxPortionOfYear, workHoursPerDay }: Ta
                       y={50 - 32 * Math.cos(angle) + 2}
                       textAnchor="middle"
                       fontSize="6"
-                      fill="#111827"
+                      fill="#1f2937"
                     >
                       {index === 0 ? 12 : index}
                     </text>
                   </g>
                 );
               })}
-              <line x1="50" y1="50" x2="50" y2="22" stroke="#ef4444" strokeWidth="3" strokeLinecap="round" />
-              <line x1="50" y1="50" x2="78" y2="50" stroke="#111827" strokeWidth="2" strokeLinecap="round" />
-              <circle cx="50" cy="50" r="3" fill="#111827" />
+              <line x1="50" y1="50" x2="50" y2="22" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" />
+              <line x1="50" y1="50" x2="78" y2="50" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" />
+              <circle cx="50" cy="50" r="3" fill="#1f2937" />
             </svg>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1.2fr)] gap-10 items-center">
-        <p className="text-base md:text-lg leading-relaxed text-neutral-800">
-          Over a full week, this becomes clearer.{" "}
-          {taxedDaysWeek < 1 ? (
-            <>In this illustration, almost none of the Monday–Friday workweek maps to taxes.</>
-          ) : (
-            <>
-              On a five-day workweek, that is roughly {taxedDaysWeek} of 5 weekdays (Monday–Friday) spent only to pay taxes in this
-              model,
-            </>
-          )}{" "}
-          before you start working for your own needs.
-        </p>
+      <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1.1fr)] lg:gap-10">
+        <div className="rounded-xl border border-neutral-100 bg-neutral-50/40 px-5 py-5 ring-1 ring-neutral-950/[0.02] sm:px-6">
+          <p className={proseClass}>
+            Over a full week, this becomes clearer.{" "}
+            {taxedDaysWeek < 1 ? (
+              <>In this illustration, almost none of the Monday–Friday workweek maps to taxes.</>
+            ) : (
+              <>
+                On a five-day workweek, that is roughly {taxedDaysWeek} of 5 weekdays (Monday–Friday) spent only to pay taxes in
+                this model,
+              </>
+            )}{" "}
+            before you start working for your own needs.
+          </p>
+        </div>
         <div className="flex justify-center">
-          <div className="rounded-2xl border border-neutral-200 bg-white px-6 py-4 shadow-sm">
-            <div className="mb-3 text-sm font-medium text-neutral-700 text-center">This week</div>
-            <div className="grid grid-cols-7 gap-2 text-xs">
+          <div className={`${panelClass} w-full max-w-sm`}>
+            <div className="mb-4 border-b border-neutral-100 pb-2 text-center text-sm font-semibold text-neutral-800">
+              This week
+            </div>
+            <div className="grid grid-cols-7 gap-1.5 text-xs sm:gap-2">
               {weekDays.map((day, index) => {
                 const isWeekday = index < 5;
                 const isTaxed = isWeekday && index < taxedDaysWeek;
@@ -120,13 +130,13 @@ export default function TaxTimeSection({ taxPortionOfYear, workHoursPerDay }: Ta
                 return (
                   <div
                     key={day}
-                    className={`flex h-10 flex-col items-center justify-center rounded-md border text-[11px] ${
+                    className={`flex h-10 flex-col items-center justify-center rounded-lg border text-[11px] font-medium ${
                       isTaxed
-                        ? "border-red-200 bg-red-50 text-red-700"
-                        : "border-neutral-200 bg-neutral-50 text-neutral-700"
+                        ? "border-rose-200/90 bg-rose-50 text-rose-800"
+                        : "border-neutral-200/90 bg-neutral-50 text-neutral-700"
                     }`}
                   >
-                    <span className="font-medium">{day}</span>
+                    {day}
                   </div>
                 );
               })}
@@ -135,32 +145,36 @@ export default function TaxTimeSection({ taxPortionOfYear, workHoursPerDay }: Ta
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1.2fr)] gap-10 items-center">
-        <p className="text-base md:text-lg leading-relaxed text-neutral-800">
-          Across an entire year, the effect is even stronger.{" "}
-          {taxedMonthsYear < 1 ? (
-            <>In this illustration, almost none of the calendar year maps to taxes.</>
-          ) : (
-            <>
-              It is comparable to spending roughly the first {taxedMonthsYear} month{taxedMonthsYear === 1 ? "" : "s"} of the year
-              only to pay taxes.
-            </>
-          )}
-        </p>
+      <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1.1fr)] lg:gap-10">
+        <div className="rounded-xl border border-neutral-100 bg-neutral-50/40 px-5 py-5 ring-1 ring-neutral-950/[0.02] sm:px-6">
+          <p className={proseClass}>
+            Across an entire year, the effect is even stronger.{" "}
+            {taxedMonthsYear < 1 ? (
+              <>In this illustration, almost none of the calendar year maps to taxes.</>
+            ) : (
+              <>
+                It is comparable to spending roughly the first {taxedMonthsYear} month{taxedMonthsYear === 1 ? "" : "s"} of the
+                year only to pay taxes.
+              </>
+            )}
+          </p>
+        </div>
         <div className="flex justify-center">
-          <div className="rounded-2xl border border-neutral-200 bg-white px-6 py-4 shadow-sm">
-            <div className="mb-3 flex items-center justify-between text-xs text-neutral-700">
-              <span>Year overview</span>
+          <div className={`${panelClass} w-full max-w-sm`}>
+            <div className="mb-4 border-b border-neutral-100 pb-2 text-center text-sm font-semibold text-neutral-800">
+              Year overview
             </div>
-            <div className="grid grid-cols-4 gap-2 text-[11px]">
+            <div className="grid grid-cols-4 gap-1.5 text-[11px] sm:gap-2">
               {months.map((month, index) => (
                 <div
                   key={month}
-                  className={`flex h-9 items-center justify-center rounded-md border ${
-                    index < taxedMonthsYear ? "border-red-200 bg-red-50 text-red-700" : "border-neutral-200 bg-neutral-50 text-neutral-700"
+                  className={`flex h-9 items-center justify-center rounded-lg border font-medium ${
+                    index < taxedMonthsYear
+                      ? "border-rose-200/90 bg-rose-50 text-rose-800"
+                      : "border-neutral-200/90 bg-neutral-50 text-neutral-700"
                   }`}
                 >
-                  <span>{month}</span>
+                  {month}
                 </div>
               ))}
             </div>

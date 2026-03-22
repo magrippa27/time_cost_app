@@ -5,14 +5,16 @@ type CpiGaugeProps = {
 };
 
 const SEGMENT_COLORS = [
-  "#fef9c3",
-  "#fef08a",
-  "#fde047",
-  "#facc15",
-  "#eab308",
-  "#f97316",
+  "#5c1010",
+  "#7f1d1d",
+  "#b91c1c",
   "#ea580c",
-  "#dc2626",
+  "#f97316",
+  "#fb923c",
+  "#fbbf24",
+  "#facc15",
+  "#fde047",
+  "#fef08a",
 ];
 
 const CHART_W = 260;
@@ -26,10 +28,15 @@ const LABEL_RADIUS = OUTER_RADIUS + 12;
 
 function polarToCartesian(cx: number, cy: number, radius: number, angleInDegrees: number) {
   const rad = (Math.PI / 180) * angleInDegrees;
+
   return {
     x: cx + Math.cos(-rad) * radius,
     y: cy + Math.sin(-rad) * radius,
   };
+}
+
+function angleForCpiValue(scale: number) {
+  return START_ANGLE + (END_ANGLE - START_ANGLE) * (scale / 100);
 }
 
 export default function CpiGauge({ value }: CpiGaugeProps) {
@@ -46,6 +53,10 @@ export default function CpiGauge({ value }: CpiGaugeProps) {
 
   const p0 = polarToCartesian(CX, CY, LABEL_RADIUS, START_ANGLE);
   const p100 = polarToCartesian(CX, CY, LABEL_RADIUS, END_ANGLE);
+  const pValue = polarToCartesian(CX, CY, LABEL_RADIUS, angleForCpiValue(safeValue));
+  const valueLabelText =
+    Math.abs(safeValue - Math.round(safeValue)) < 1e-6 ? String(Math.round(safeValue)) : safeValue.toFixed(1);
+  const showValueTick = safeValue > 0 && safeValue < 100;
 
   return (
     <div className="relative mx-auto w-full max-w-[260px] aspect-[260/220]">
@@ -109,6 +120,17 @@ export default function CpiGauge({ value }: CpiGaugeProps) {
         >
           100
         </text>
+        {showValueTick ? (
+          <text
+            x={pValue.x}
+            y={pValue.y}
+            textAnchor="middle"
+            dominantBaseline="central"
+            className="fill-neutral-900 text-[11px] font-semibold"
+          >
+            {valueLabelText}
+          </text>
+        ) : null}
       </svg>
     </div>
   );

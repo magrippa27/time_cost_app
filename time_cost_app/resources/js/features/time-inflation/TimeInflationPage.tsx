@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 import HeroImage from "../../assets/coins.jpg";
 import CountrySelect, { getCountryName } from "../../shared/components/CountrySelect";
 import Star from "../../shared/components/Star";
@@ -289,8 +290,17 @@ export default function TimeInflationPage() {
             <DefinitionsSection sectionRef={definitionsRef} />
 
             {apiLoading && (
-              <div className="mt-6 mb-2 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-700">
-                Loading inflation and wages for the selected country…
+              <div
+                className="mt-8 flex flex-col items-center justify-center gap-4 rounded-2xl border border-neutral-200/80 bg-white px-6 py-12 shadow-sm ring-1 ring-neutral-950/[0.03]"
+                role="status"
+                aria-live="polite"
+                aria-busy="true"
+              >
+                <Spinner className="size-10 text-neutral-700" />
+                <p className="m-0 text-center text-sm font-medium text-neutral-700">
+                  Loading inflation and wage data for the selected country…
+                </p>
+                <p className="m-0 text-center text-xs text-neutral-500">This can take a few seconds.</p>
               </div>
             )}
 
