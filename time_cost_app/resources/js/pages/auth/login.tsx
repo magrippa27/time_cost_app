@@ -41,7 +41,7 @@ export default function Login({
                         <p className="m-0">Professor: Filip Biały</p>
                         <div className="h-4 w-full" aria-hidden />
                         <p className="m-0">
-                            Tutors: Yash Kumar, Durba Srivastava &amp; Sugandha Ratha
+                            Tutors: Yash Kumar, Durba Srivastava &amp; Sugandha Rathi
                         </p>
                         <div className="h-6 w-full" aria-hidden />
                         <p className="m-0">Developed by: Manuel Pulido</p>
