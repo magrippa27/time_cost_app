@@ -197,26 +197,25 @@ export default function TimeInflationPage() {
   return (
     <div className="w-full min-h-screen bg-background-default-default">
       <section
-        className="w-full flex flex-col items-center justify-center gap-space-200 px-space-600 py-[160px] relative"
-        style={{ minHeight: 535 }}
+        className="relative flex w-full flex-col items-center justify-center gap-5 px-4 py-24 sm:gap-6 sm:px-6 sm:py-32 md:px-8 lg:px-space-600 lg:py-[120px] xl:py-[160px]"
+        style={{ minHeight: "min(100vh, 560px)" }}
         aria-label="Hero"
       >
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="pointer-events-none absolute inset-0">
           <img
             src={HeroImage}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-background-utilities-scrim" />
         </div>
-        <div className="relative z-10 flex flex-col items-center gap-4 text-center leading-[1.2] text-text-utilities-text-on-overlay font-title-hero-font-family max-w-[900px]">
-          <h1 className="m-0 font-title-hero-font-weight text-[clamp(4rem,10vw,7rem)] tracking-[-2.16px]">
-            Inflation-Cost
+        <div className="relative z-10 mx-auto flex w-full max-w-[min(100%,40rem)] flex-col items-center gap-5 text-center font-title-hero-font-family text-text-utilities-text-on-overlay sm:max-w-[900px] sm:gap-6">
+          <h1 className="m-0 w-full font-title-hero-font-weight text-[clamp(2.5rem,9vw,7rem)] leading-[1.05] tracking-[-0.045em]">
+            {"Time\u2011Inflation"}
           </h1>
-          <div className="flex flex-col items-center text-[clamp(1.75rem,4vw,3rem)] font-subtitle-font-family font-normal">
-            <p className="m-0">Inflation doesn’t just eats your salary.</p>
-            <p className="m-0">It eats your time.</p>
-          </div>
+          <p className="m-0 max-w-[min(100%,22rem)] font-subtitle-font-family text-[clamp(1.125rem,4.5vw,3rem)] font-normal leading-snug text-pretty sm:max-w-[min(100%,36rem)]">
+            Inflation doesn&apos;t just eat your salary. It eats your time.
+          </p>
         </div>
       </section>
 

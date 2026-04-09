@@ -1,3 +1,4 @@
+import type { Ref } from "react";
 import { Card, CardContent, CardHeader } from "../../../shared/components/ui";
 import { getCpiScoreForCountryCode } from "../getCpiScore";
 import { getPitRateInfo } from "../getPitRate";
@@ -22,6 +23,8 @@ type TimeCostResultsSectionProps = {
   submitted: Submitted;
   parsePositiveNumber: (value: string) => number | null;
   countryName: string;
+  moneyTablesRef?: Ref<HTMLElement>;
+  cpiSlidesRef?: Ref<HTMLElement>;
 };
 
 function SectionHeading({ eyebrow, title }: { eyebrow?: string; title: string }) {
@@ -41,6 +44,8 @@ export default function TimeCostResultsSection({
   submitted,
   parsePositiveNumber,
   countryName,
+  moneyTablesRef,
+  cpiSlidesRef,
 }: TimeCostResultsSectionProps) {
   const workHours = parsePositiveNumber(submitted.workHoursPerDay) ?? 0;
   const cpiValue = getCpiScoreForCountryCode(submitted.countryCode);
@@ -105,12 +110,16 @@ export default function TimeCostResultsSection({
         </div>
       )}
 
-      <div className="mx-auto mb-12 max-w-4xl sm:mb-16">
+      <section
+        ref={moneyTablesRef}
+        className="mx-auto mb-12 max-w-4xl scroll-mt-8 sm:mb-16"
+        aria-label="Earnings by time period"
+      >
         <TimeToMoneyTable
           monthlyIncome={parsePositiveNumber(submitted.monthlyIncome)}
           workHoursPerDay={parsePositiveNumber(submitted.workHoursPerDay)}
         />
-      </div>
+      </section>
 
       <section className="mx-auto flex max-w-4xl flex-col gap-12 px-0 sm:gap-14">
         <div className="rounded-2xl border border-border/80 bg-muted/40 px-5 py-6 text-center ring-1 ring-neutral-950/[0.03] sm:px-8 dark:ring-neutral-100/[0.06]">
@@ -149,9 +158,9 @@ export default function TimeCostResultsSection({
         </div>
       </section>
 
-      <div className="mt-16 sm:mt-20">
+      <section ref={cpiSlidesRef} className="mt-16 scroll-mt-8 sm:mt-20" aria-label="Corruption and reflection">
         <CpiSlides cpiValue={cpiValue} countryName={countryName} />
-      </div>
+      </section>
     </div>
   );
 }

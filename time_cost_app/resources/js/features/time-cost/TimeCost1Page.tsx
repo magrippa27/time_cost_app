@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HeroImage from "../../assets/clock.jpg";
 import CountrySelect, { getCountryName } from "../../shared/components/CountrySelect";
 import Star from "../../shared/components/Star";
@@ -6,6 +6,9 @@ import { Input } from "../../shared/components/ui";
 import TimeCostResultsSection from "./components/TimeCostResultsSection";
 
 export default function TimeCost1Page() {
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const moneyTablesRef = useRef<HTMLElement>(null);
+  const cpiSlidesRef = useRef<HTMLElement>(null);
   const [country, setCountry] = useState("");
   const [age, setAge] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
@@ -20,6 +23,25 @@ export default function TimeCost1Page() {
     leisureHoursPerDay: string;
   } | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!submitted) {
+      return;
+    }
+
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const t = window.setTimeout(() => {
+      moneyTablesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 2200);
+    const t2 = window.setTimeout(() => {
+      cpiSlidesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 4600);
+
+    return () => {
+      window.clearTimeout(t);
+      window.clearTimeout(t2);
+    };
+  }, [submitted]);
 
   function parsePositiveNumber(value: string) {
     const trimmed = value.trim();
@@ -153,11 +175,13 @@ export default function TimeCost1Page() {
         </div>
 
         {submitted && (
-          <div>
+          <div ref={resultsRef} className="scroll-mt-8 transition-all duration-500">
             <TimeCostResultsSection
               submitted={submitted}
               parsePositiveNumber={parsePositiveNumber}
               countryName={getCountryName(submitted.countryCode) || ""}
+              moneyTablesRef={moneyTablesRef}
+              cpiSlidesRef={cpiSlidesRef}
             />
           </div>
         )}
