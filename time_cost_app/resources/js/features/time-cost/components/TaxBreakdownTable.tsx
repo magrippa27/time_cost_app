@@ -13,8 +13,8 @@ export default function TaxBreakdownTable({ monthlyIncome, workHoursPerDay, taxR
 
   if (!baseMonthly) {
     return (
-      <div className="rounded-xl border border-neutral-200/80 bg-neutral-50/50 px-5 py-6 text-center ring-1 ring-neutral-950/[0.03]">
-        <p className="m-0 text-sm text-neutral-600">Add a valid monthly income to see gross vs after-tax amounts.</p>
+      <div className="rounded-xl border border-border/80 bg-muted/50 px-5 py-6 text-center ring-1 ring-neutral-950/[0.03] dark:ring-neutral-100/[0.06]">
+        <p className="m-0 text-sm text-text-default-default">Add a valid monthly income to see gross vs after-tax amounts.</p>
       </div>
     );
   }
@@ -24,11 +24,11 @@ export default function TaxBreakdownTable({ monthlyIncome, workHoursPerDay, taxR
   const taxPctLabel = `${(safeRate * 100).toFixed(0)}%`;
 
   return (
-    <div className="w-full overflow-hidden rounded-xl border border-neutral-200/90 bg-white shadow-md shadow-neutral-950/5 ring-1 ring-neutral-950/[0.04]">
+    <div className="w-full overflow-hidden rounded-xl border border-border/90 bg-card shadow-md shadow-neutral-950/5 ring-1 ring-neutral-950/[0.04] dark:shadow-neutral-950/20 dark:ring-neutral-100/[0.06]">
       <div className="border-b border-neutral-100 bg-gradient-to-br from-neutral-50/80 to-white px-5 py-4 sm:px-6">
         <div className="border-l-[3px] border-neutral-900/15 pl-4">
-          <p className="m-0 text-sm font-medium text-neutral-900">Gross vs after-tax (same time windows)</p>
-          <p className="m-0 mt-1 text-xs text-neutral-500">
+          <p className="m-0 text-sm font-medium text-foreground">Gross vs after-tax (same time windows)</p>
+          <p className="m-0 mt-1 text-xs text-text-default-default">
             Illustrative net uses the estimated top PIT rate ({taxPctLabel} of gross in this model).
           </p>
         </div>
@@ -38,13 +38,13 @@ export default function TaxBreakdownTable({ monthlyIncome, workHoursPerDay, taxR
         <table className="w-full min-w-[320px] border-collapse text-left">
           <thead>
             <tr className="border-b border-neutral-100 bg-neutral-50/60">
-              <th scope="col" className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-neutral-500 sm:px-6">
+              <th scope="col" className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-text-default-default sm:px-6">
                 Period
               </th>
-              <th scope="col" className="px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-neutral-500">
+              <th scope="col" className="px-3 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-default-default">
                 Gross
               </th>
-              <th scope="col" className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider text-neutral-500 sm:px-6">
+              <th scope="col" className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider text-text-default-default sm:px-6">
                 After tax
               </th>
             </tr>
@@ -56,13 +56,13 @@ export default function TaxBreakdownTable({ monthlyIncome, workHoursPerDay, taxR
 
               return (
                 <tr key={row.label} className="border-b border-neutral-100 last:border-b-0 transition-colors hover:bg-neutral-50/50">
-                  <th scope="row" className="px-5 py-3.5 text-sm font-medium text-neutral-700 sm:px-6">
+                  <th scope="row" className="px-5 py-3.5 text-sm font-medium text-text-default-default sm:px-6">
                     {row.label}
                   </th>
-                  <td className="px-3 py-3.5 text-right text-sm font-semibold tabular-nums text-neutral-900">
+                  <td className="px-3 py-3.5 text-right text-sm font-semibold tabular-nums text-foreground">
                     {formatCurrency(gross)}
                   </td>
-                  <td className="px-5 py-3.5 text-right text-sm font-semibold tabular-nums text-neutral-900 sm:px-6">
+                  <td className="px-5 py-3.5 text-right text-sm font-semibold tabular-nums text-foreground sm:px-6">
                     {formatCurrency(net)}
                   </td>
                 </tr>

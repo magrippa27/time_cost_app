@@ -54,14 +54,14 @@ export default function TextareaField({
           {description}
         </div>
       )}
-      <div className="self-stretch rounded-lg border-2 border-neutral-300 bg-white shadow-sm transition-colors focus-within:border-neutral-500 focus-within:ring-2 focus-within:ring-neutral-400/20 focus-within:ring-offset-0 box-border overflow-hidden flex items-start py-3 px-4 relative isolate min-w-[120px] min-h-[80px] shrink-0">
+      <div className="self-stretch rounded-lg border-2 border-input bg-card shadow-sm transition-colors focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/30 focus-within:ring-offset-0 box-border overflow-hidden flex items-start py-3 px-4 relative isolate min-w-[120px] min-h-[80px] shrink-0">
         <input
-          className="w-[calc(100%-38.6px)] border-none outline-none font-body-font-family text-body-size-medium bg-transparent flex-1 relative leading-[140%] text-text-default-default text-left inline-block z-0 shrink-0 placeholder:text-neutral-400"
+          className="w-[calc(100%-38.6px)] border-none outline-none font-body-font-family text-body-size-medium bg-transparent flex-1 relative leading-[140%] text-text-default-default text-left inline-block z-0 shrink-0 placeholder:text-muted-foreground"
           placeholder="Testing"
           type="text"
         />
         <img
-          className="h-[6.6px] w-[6.6px] absolute right-[6px] bottom-[7px] z-[1] shrink-0 opacity-60"
+          className="absolute bottom-[7px] right-[6px] z-[1] h-[6.6px] w-[6.6px] shrink-0 opacity-60 dark:invert"
           alt=""
           src={DragIcon}
         />

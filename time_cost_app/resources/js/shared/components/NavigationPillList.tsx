@@ -30,6 +30,7 @@ export default function NavigationPillList({
   onNavigate,
 }: NavigationPillListProps) {
   const visible = items.filter((item) => item.show !== false);
+
   return (
     <nav
       className={`flex flex-1 flex-wrap items-center justify-end gap-space-200 shrink-0 text-body-size-medium text-text-default-default font-body-font-family ${direction === "Column" ? "flex-col" : ""} ${className}`}

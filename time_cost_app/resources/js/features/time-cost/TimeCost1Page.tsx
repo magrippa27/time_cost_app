@@ -117,7 +117,7 @@ export default function TimeCost1Page() {
             placeholder="e.g. 30"
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            className="rounded-lg border-2 border-neutral-300 bg-white"
+            className="rounded-lg border-2 border-input bg-card"
           />
           <Input
             label="Monthly Income (Gross)"
@@ -125,7 +125,7 @@ export default function TimeCost1Page() {
             placeholder="e.g. 2000"
             value={monthlyIncome}
             onChange={(e) => setMonthlyIncome(e.target.value)}
-            className="rounded-lg border-2 border-neutral-300 bg-white"
+            className="rounded-lg border-2 border-input bg-card"
           />
           <Input
             label="Hours you work per day"
@@ -133,7 +133,7 @@ export default function TimeCost1Page() {
             placeholder="e.g. 8"
             value={workHoursPerDay}
             onChange={(e) => setWorkHoursPerDay(e.target.value)}
-            className="rounded-lg border-2 border-neutral-300 bg-white"
+            className="rounded-lg border-2 border-input bg-card"
           />
         </div>
 

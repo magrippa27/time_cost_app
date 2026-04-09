@@ -1,0 +1,14 @@
+{
+    "private": true,
+    "name": "time-cost-app-root",
+    "scripts": {
+        "dev": "npm run dev --prefix time_cost_app",
+        "build": "npm run build --prefix time_cost_app",
+        "build:ssr": "npm run build:ssr --prefix time_cost_app",
+        "lint": "npm run lint --prefix time_cost_app",
+        "lint:check": "npm run lint:check --prefix time_cost_app",
+        "format": "npm run format --prefix time_cost_app",
+        "format:check": "npm run format:check --prefix time_cost_app",
+        "types:check": "npm run types:check --prefix time_cost_app"
+    }
+}

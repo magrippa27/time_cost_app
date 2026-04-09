@@ -1,4 +1,5 @@
-import { useMemo, ReactNode } from "react";
+import type { ReactNode } from "react";
+import { useMemo } from "react";
 
 interface StarProps {
   className?: string;

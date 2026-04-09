@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes } from "react";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 
@@ -23,6 +23,7 @@ export function Button({
       "bg-[var(--color-surface)] text-[var(--color-text)] border border-[var(--color-text-muted)]/30 hover:bg-[var(--color-text-muted)]/10",
     ghost: "text-[var(--color-text)] hover:bg-[var(--color-text-muted)]/10",
   };
+
   return (
     <button
       type={type}

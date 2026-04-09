@@ -7,7 +7,7 @@
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --font-sans:
@@ -75,6 +75,8 @@
     --color-text-brand-on-brand: #f5f5f5;
     --color-background-default-secondary: #f5f5f5;
 
+    --color-surface: #ffffff;
+
     --spacing-space-200: 8px;
     --spacing-space-300: 12px;
     --spacing-space-400: 16px;
@@ -136,18 +138,18 @@
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
-    --popover-foreground: oklch(0.985 0 0);
+    --background: #0c0c0c;
+    --foreground: #f5f5f5;
+    --card: #141414;
+    --card-foreground: #f5f5f5;
+    --popover: #141414;
+    --popover-foreground: #f5f5f5;
     --primary: oklch(0.985 0 0);
     --primary-foreground: oklch(0.205 0 0);
     --secondary: oklch(0.269 0 0);
     --secondary-foreground: oklch(0.985 0 0);
     --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
+    --muted-foreground: oklch(0.84 0 0);
     --accent: oklch(0.269 0 0);
     --accent-foreground: oklch(0.985 0 0);
     --destructive: oklch(0.396 0.141 25.723);
@@ -168,6 +170,47 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
+
+    --color-text-default-default: #f5f5f5;
+    --color-text-default-secondary: #d4d4d4;
+    --color-background-default-default: #0c0c0c;
+    --color-border-default-default: #404040;
+    --color-background-utilities-scrim: rgba(0, 0, 0, 0.72);
+    --color-text-utilities-text-on-overlay: #f5f5f5;
+    --color-background-neutral-tertiary: #262626;
+    --color-border-neutral-secondary: #a3a3a3;
+    --color-background-brand-default: #e5e5e5;
+    --color-border-brand-default: #e5e5e5;
+    --color-text-brand-on-brand: #171717;
+    --color-background-default-secondary: #141414;
+
+    --color-surface: #141414;
+}
+
+.dark .showcase {
+    --color-primary: #e5e5e5;
+    --color-primary-hover: #ffffff;
+    --color-background: #0c0c0c;
+    --color-surface: #141414;
+    --color-text: #f5f5f5;
+    --color-text-muted: #d4d4d4;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+    --shadow-md:
+        0 4px 6px -1px rgb(0 0 0 / 0.45), 0 2px 4px -2px rgb(0 0 0 / 0.35);
+
+    --color-text-default-default: #f5f5f5;
+    --color-text-default-secondary: #d4d4d4;
+    --color-background-default-default: #0c0c0c;
+    --color-border-default-default: #404040;
+    --color-background-utilities-scrim: rgba(0, 0, 0, 0.75);
+    --color-text-utilities-text-on-overlay: #fafafa;
+    --color-background-neutral-tertiary: #262626;
+    --color-border-neutral-secondary: #737373;
+    --color-background-brand-default: #e5e5e5;
+    --color-border-brand-default: #e5e5e5;
+    --color-text-brand-on-brand: #0c0c0c;
+    --color-background-default-secondary: #141414;
 }
 
 .showcase {
@@ -223,4 +266,62 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+.dark .country-select {
+    color-scheme: dark;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_selectBtn"] {
+    color: var(--color-text-default-default) !important;
+    border-color: var(--color-border-default-default) !important;
+    background-color: var(--color-background-default-default) !important;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_selectBtn"]:after {
+    border-top-color: var(--color-text-default-default) !important;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_selectBtn"][aria-expanded="true"]:after {
+    border-bottom-color: var(--color-text-default-default) !important;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_selectValue"],
+.dark .country-select [class*="ReactFlagsSelect-module_label"] {
+    color: var(--color-text-default-default) !important;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_secondaryLabel"] {
+    color: var(--color-text-default-secondary) !important;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_selectOptions"] {
+    background-color: var(--color-background-default-default) !important;
+    border: 1px solid var(--color-border-default-default) !important;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 40px rgb(0 0 0 / 0.45);
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_selectOption"] {
+    color: var(--color-text-default-default) !important;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_selectOption"]:hover,
+.dark .country-select [class*="ReactFlagsSelect-module_selectOption"]:focus {
+    background-color: var(--color-background-default-secondary) !important;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_filterBox"] {
+    background-color: var(--color-background-default-default) !important;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_filterBox"] input {
+    color: var(--color-text-default-default) !important;
+    border-color: var(--color-border-default-default) !important;
+    background-color: var(--color-background-default-secondary) !important;
+    border-radius: 0.375rem;
+}
+
+.dark .country-select [class*="ReactFlagsSelect-module_filterBox"] input::placeholder {
+    color: var(--color-text-default-secondary) !important;
 }

@@ -19,7 +19,7 @@ function displayValue(value: string) {
   const trimmed = value?.trim() ?? "";
 
   if (!trimmed) {
-    return <span className="font-normal italic text-neutral-400">Not provided</span>;
+    return <span className="font-normal italic text-text-default-secondary">Not provided</span>;
   }
 
   return trimmed;
@@ -43,26 +43,26 @@ export default function TimeCostUserInfoCard({
   ];
 
   return (
-    <Card className="overflow-hidden rounded-xl border border-neutral-200/90 bg-white p-0 shadow-md shadow-neutral-950/5 ring-1 ring-neutral-950/[0.04]">
-      <div className="border-b border-neutral-100 bg-gradient-to-br from-neutral-50/80 to-white px-5 py-4 sm:px-6">
-        <div className="border-l-[3px] border-neutral-900/15 pl-4">
-          <CardHeader className="m-0 mb-1 p-0 text-lg font-semibold tracking-tight text-neutral-900 sm:text-xl">
+    <Card className="overflow-hidden rounded-xl border border-border/90 bg-card p-0 shadow-md shadow-neutral-950/5 ring-1 ring-neutral-950/[0.04] dark:shadow-neutral-950/20 dark:ring-neutral-100/[0.06]">
+      <div className="border-b border-border bg-gradient-to-br from-muted/80 to-card px-5 py-4 sm:px-6">
+        <div className="border-l-[3px] border-foreground/15 pl-4">
+          <CardHeader className="m-0 mb-1 p-0 text-lg font-semibold tracking-tight text-foreground sm:text-xl">
             Your information
           </CardHeader>
-          <p className="m-0 text-sm leading-snug text-neutral-500">Inputs used for this estimate</p>
+          <p className="m-0 text-sm leading-snug text-muted-foreground">Inputs used for this estimate</p>
         </div>
       </div>
 
       <CardContent className="px-0 pb-0 pt-0 text-[var(--color-text)]">
-        <dl className="divide-y divide-neutral-100">
+        <dl className="divide-y divide-border">
           {rows.map(({ label, value, tabular }) => (
             <div
               key={label}
-              className="flex flex-col gap-1 px-5 py-4 transition-colors hover:bg-neutral-50/60 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 sm:px-6"
+              className="flex flex-col gap-1 px-5 py-4 transition-colors hover:bg-muted/60 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 sm:px-6"
             >
-              <dt className="min-w-0 text-sm font-medium text-neutral-500">{label}</dt>
+              <dt className="min-w-0 text-sm font-medium text-muted-foreground">{label}</dt>
               <dd
-                className={`min-w-0 text-base font-semibold text-neutral-900 sm:max-w-[58%] sm:text-right ${tabular ? "tabular-nums" : ""}`}
+                className={`min-w-0 text-base font-semibold text-foreground sm:max-w-[58%] sm:text-right ${tabular ? "tabular-nums" : ""}`}
               >
                 {displayValue(value)}
               </dd>

@@ -1,4 +1,5 @@
-import { InputHTMLAttributes, useId } from "react";
+import type { InputHTMLAttributes} from "react";
+import { useId } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -7,6 +8,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 export function Input({ label, id, className = "", ...props }: InputProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
+
   return (
     <div className="flex flex-col gap-1">
       {label && (

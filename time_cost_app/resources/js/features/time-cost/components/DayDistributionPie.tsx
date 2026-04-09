@@ -1,11 +1,14 @@
+import { useMemo } from "react";
 import {
   Cell,
   Pie,
   PieChart,
   ResponsiveContainer,
-  Tooltip,
-  type PieLabelRenderProps,
+  Tooltip
+  
 } from "recharts";
+import type {PieLabelRenderProps} from "recharts";
+import { useAppearance } from "@/hooks/use-appearance";
 
 type DayDistributionPieProps = {
   workHours: number;
@@ -21,6 +24,7 @@ function formatHours(value: number) {
 
 function SliceLabel(props: PieLabelRenderProps) {
   const { cx, cy, midAngle, innerRadius, outerRadius, percent, value } = props;
+
   if (
     cx == null ||
     cy == null ||
@@ -64,6 +68,17 @@ function SliceLabel(props: PieLabelRenderProps) {
 }
 
 export default function DayDistributionPie({ workHours, sleepHours, leisureHours }: DayDistributionPieProps) {
+  const { resolvedAppearance } = useAppearance();
+  const tooltipUi = useMemo(() => {
+    const dark = resolvedAppearance === "dark";
+
+    return {
+      border: dark ? "#475569" : "#e5e7eb",
+      background: dark ? "oklch(0.205 0 0)" : "#ffffff",
+      color: dark ? "#cbd5e1" : "#374151",
+    };
+  }, [resolvedAppearance]);
+
   const safeWork = workHours > 0 && Number.isFinite(workHours) ? workHours : 0;
   const safeSleep = sleepHours > 0 && Number.isFinite(sleepHours) ? sleepHours : 0;
   const safeLeisure = leisureHours > 0 && Number.isFinite(leisureHours) ? leisureHours : 0;
@@ -71,7 +86,7 @@ export default function DayDistributionPie({ workHours, sleepHours, leisureHours
 
   if (sum <= 0) {
     return (
-      <div className="flex h-[260px] items-center justify-center text-sm text-neutral-500">
+      <div className="flex h-[260px] items-center justify-center text-sm text-muted-foreground">
         Add your daily hours above to see how your day is split.
       </div>
     );
@@ -112,9 +127,17 @@ export default function DayDistributionPie({ workHours, sleepHours, leisureHours
               ))}
             </Pie>
             <Tooltip
+              contentStyle={{
+                borderRadius: 8,
+                border: `1px solid ${tooltipUi.border}`,
+                fontSize: 12,
+                backgroundColor: tooltipUi.background,
+                color: tooltipUi.color,
+              }}
               formatter={(value) => {
                 const numericValue = typeof value === "number" ? value : Number(value);
                 const pctOfDay = (numericValue / 24) * 100;
+
                 return [`${formatHours(numericValue)} · ${pctOfDay.toFixed(1)}% of day`, "Hours"];
               }}
             />
@@ -126,10 +149,11 @@ export default function DayDistributionPie({ workHours, sleepHours, leisureHours
         {data.map((entry, index) => {
           const pctOfDay = (entry.value / 24) * 100;
           const color = COLORS[index % COLORS.length];
+
           return (
             <li
               key={entry.name}
-              className="flex items-center justify-between gap-3 rounded-lg border border-neutral-100 bg-neutral-50/80 px-3 py-2.5 text-sm"
+              className="flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/80 px-3 py-2.5 text-sm"
             >
               <span className="flex min-w-0 items-center gap-2.5">
                 <span
@@ -137,11 +161,11 @@ export default function DayDistributionPie({ workHours, sleepHours, leisureHours
                   style={{ backgroundColor: color }}
                   aria-hidden
                 />
-                <span className="font-medium text-neutral-800">{entry.name}</span>
+                <span className="font-medium text-foreground/90">{entry.name}</span>
               </span>
-              <span className="shrink-0 tabular-nums text-neutral-600">
-                <span className="font-semibold text-neutral-900">{formatHours(entry.value)}</span>
-                <span className="mx-1.5 text-neutral-300" aria-hidden>
+              <span className="shrink-0 tabular-nums text-muted-foreground">
+                <span className="font-semibold text-foreground">{formatHours(entry.value)}</span>
+                <span className="mx-1.5 text-border" aria-hidden>
                   ·
                 </span>
                 <span>{pctOfDay.toFixed(1)}%</span>

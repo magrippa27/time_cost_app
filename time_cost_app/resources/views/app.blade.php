@@ -4,18 +4,18 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        {{-- Inline script to detect system dark mode preference and apply it immediately --}}
         <script>
             (function() {
-                const appearance = '{{ $appearance ?? "system" }}';
-
-                if (appearance === 'system') {
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-                    if (prefersDark) {
-                        document.documentElement.classList.add('dark');
-                    }
-                }
+                try {
+                    var stored = localStorage.getItem('appearance');
+                    var appearance =
+                        stored !== null && stored !== '' ? stored : '{{ $appearance ?? "system" }}';
+                    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    var isDark =
+                        appearance === 'dark' ||
+                        (appearance === 'system' && prefersDark);
+                    document.documentElement.classList.toggle('dark', isDark);
+                } catch (e) {}
             })();
         </script>
 
@@ -26,7 +26,7 @@
             }
 
             html.dark {
-                background-color: oklch(0.145 0 0);
+                background-color: #0c0c0c;
             }
         </style>
 

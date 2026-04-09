@@ -240,7 +240,7 @@ export default function TimeInflationPage() {
             placeholder="e.g. 30"
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            className="rounded-lg border-2 border-neutral-300 bg-white"
+            className="rounded-lg border-2 border-input bg-card"
           />
           <Input
             label="Monthly Income (Gross)"
@@ -248,7 +248,7 @@ export default function TimeInflationPage() {
             placeholder="e.g. 2000"
             value={monthlyIncome1}
             onChange={(e) => setMonthlyIncome1(e.target.value)}
-            className="rounded-lg border-2 border-neutral-300 bg-white"
+            className="rounded-lg border-2 border-input bg-card"
           />
           <Input
             label="Hours you work per day"
@@ -256,7 +256,7 @@ export default function TimeInflationPage() {
             placeholder="e.g. 8"
             value={hoursPerDay}
             onChange={(e) => setHoursPerDay(e.target.value)}
-            className="rounded-lg border-2 border-neutral-300 bg-white"
+            className="rounded-lg border-2 border-input bg-card"
           />
         </div>
 
@@ -291,16 +291,18 @@ export default function TimeInflationPage() {
 
             {apiLoading && (
               <div
-                className="mt-8 flex flex-col items-center justify-center gap-4 rounded-2xl border border-neutral-200/80 bg-white px-6 py-12 shadow-sm ring-1 ring-neutral-950/[0.03]"
+                className="mt-8 flex flex-col items-center justify-center gap-4 rounded-2xl border border-border/80 bg-card px-6 py-12 shadow-sm ring-1 ring-neutral-950/[0.03] dark:ring-neutral-100/[0.06]"
                 role="status"
                 aria-live="polite"
                 aria-busy="true"
               >
-                <Spinner className="size-10 text-neutral-700" />
-                <p className="m-0 text-center text-sm font-medium text-neutral-700">
+                <Spinner className="size-10 text-text-default-default" />
+                <p className="m-0 text-center text-sm font-medium text-text-default-default">
                   Loading inflation and wage data for the selected country…
                 </p>
-                <p className="m-0 text-center text-xs text-neutral-500">This can take a few seconds.</p>
+                <p className="m-0 text-center text-xs text-text-default-secondary">
+                  This can take a few seconds.
+                </p>
               </div>
             )}
 

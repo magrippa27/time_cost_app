@@ -52,7 +52,7 @@ export default function Login({
             <div className="max-w-[900px] mx-auto px-4 pb-4 pt-0 sm:px-6 sm:pb-8 sm:pt-2">
                 <div className="flex justify-center">
                     <div className="w-full max-w-[420px]">
-                        <div className="rounded-xl border border-black bg-white p-4 text-black shadow-sm sm:p-6">
+                        <div className="rounded-xl border border-border bg-card p-4 text-card-foreground shadow-sm sm:p-6">
                             <Form
                                 {...store.form()}
                                 resetOnSuccess={['password']}
@@ -62,10 +62,7 @@ export default function Login({
                                     <>
                                         <div className="grid gap-6">
                                             <div className="grid gap-2">
-                                                <Label
-                                                    htmlFor="email"
-                                                    className="text-black"
-                                                >
+                                                <Label htmlFor="email">
                                                     Email address
                                                 </Label>
                                                 <Input
@@ -77,7 +74,7 @@ export default function Login({
                                                     tabIndex={1}
                                                     autoComplete="email"
                                                     placeholder="email@example.com"
-                                                    className="border-black bg-white text-black placeholder:text-black/50 focus-visible:border-black focus-visible:ring-black/20"
+                                                    className="border-input bg-background"
                                                 />
                                                 <InputError
                                                     message={errors.email}
@@ -86,16 +83,13 @@ export default function Login({
 
                                             <div className="grid gap-2">
                                                 <div className="flex items-center">
-                                                    <Label
-                                                        htmlFor="password"
-                                                        className="text-black"
-                                                    >
+                                                    <Label htmlFor="password">
                                                         Password
                                                     </Label>
                                                     {canResetPassword && (
                                                         <TextLink
                                                             href={request()}
-                                                            className="ml-auto text-sm text-black decoration-black/40 hover:decoration-black"
+                                                            className="ml-auto text-sm text-muted-foreground underline-offset-4 hover:text-foreground"
                                                             tabIndex={5}
                                                         >
                                                             Forgot password?
@@ -109,7 +103,7 @@ export default function Login({
                                                     tabIndex={2}
                                                     autoComplete="current-password"
                                                     placeholder="Password"
-                                                    className="border-black bg-white text-black placeholder:text-black/50 focus-visible:border-black focus-visible:ring-black/20"
+                                                    className="border-input bg-background"
                                                 />
                                                 <InputError
                                                     message={errors.password}
@@ -122,17 +116,14 @@ export default function Login({
                                                     name="remember"
                                                     tabIndex={3}
                                                 />
-                                                <Label
-                                                    htmlFor="remember"
-                                                    className="text-black"
-                                                >
+                                                <Label htmlFor="remember">
                                                     Remember me
                                                 </Label>
                                             </div>
 
                                             <Button
                                                 type="submit"
-                                                className="mt-4 w-full bg-black text-white hover:bg-black/90"
+                                                className="mt-4 w-full"
                                                 tabIndex={4}
                                                 disabled={processing}
                                                 data-test="login-button"
@@ -143,12 +134,12 @@ export default function Login({
                                         </div>
 
                                         {canRegister && (
-                                            <div className="text-center text-sm text-black">
+                                            <div className="text-center text-sm text-muted-foreground">
                                                 Don't have an account?{' '}
                                                 <TextLink
                                                     href={register()}
                                                     tabIndex={5}
-                                                    className="text-black decoration-black/40 hover:decoration-black"
+                                                    className="text-foreground underline-offset-4"
                                                 >
                                                     Sign up
                                                 </TextLink>
@@ -159,7 +150,7 @@ export default function Login({
                             </Form>
 
                             {status && (
-                                <div className="mt-4 text-center text-sm font-medium text-green-700">
+                                <div className="mt-4 text-center text-sm font-medium text-emerald-600 dark:text-emerald-400">
                                     {status}
                                 </div>
                             )}

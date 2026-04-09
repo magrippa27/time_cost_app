@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { useAppearance } from "@/hooks/use-appearance";
 
 type CpiGaugeProps = {
   value: number;
@@ -40,6 +42,18 @@ function angleForCpiValue(scale: number) {
 }
 
 export default function CpiGauge({ value }: CpiGaugeProps) {
+  const { resolvedAppearance } = useAppearance();
+  const gauge = useMemo(() => {
+    const dark = resolvedAppearance === "dark";
+
+    return {
+      inactive: dark ? "#1e293b" : "#ffffff",
+      center: dark ? "#1e293b" : "#ffffff",
+      ringStroke: dark ? "#64748b" : "#e5e7eb",
+      sliceStroke: dark ? "#94a3b8" : "#111827",
+    };
+  }, [resolvedAppearance]);
+
   const safeValue = Number.isFinite(value) ? Math.min(Math.max(value, 0), 100) : 0;
   const segments = SEGMENT_COLORS.length;
   const segmentSize = 100 / segments;
@@ -70,14 +84,14 @@ export default function CpiGauge({ value }: CpiGaugeProps) {
               endAngle={END_ANGLE}
               innerRadius={55}
               outerRadius={OUTER_RADIUS}
-              stroke="#111827"
+              stroke={gauge.sliceStroke}
               strokeWidth={0.8}
             >
               {data.map((entry, index) => (
                 <Cell
                   key={entry.name}
-                  fill={entry.active ? SEGMENT_COLORS[index] : "#ffffff"}
-                  stroke="#111827"
+                  fill={entry.active ? SEGMENT_COLORS[index] : gauge.inactive}
+                  stroke={gauge.sliceStroke}
                   strokeWidth={0.8}
                 />
               ))}
@@ -89,8 +103,8 @@ export default function CpiGauge({ value }: CpiGaugeProps) {
               endAngle={360}
               innerRadius={40}
               outerRadius={54}
-              fill="#ffffff"
-              stroke="#e5e7eb"
+              fill={gauge.center}
+              stroke={gauge.ringStroke}
               strokeWidth={1}
             />
           </PieChart>
@@ -107,7 +121,7 @@ export default function CpiGauge({ value }: CpiGaugeProps) {
           y={p0.y}
           textAnchor="middle"
           dominantBaseline="central"
-          className="fill-neutral-800 text-[10px]"
+          className="fill-foreground/80 text-[10px]"
         >
           0
         </text>
@@ -116,7 +130,7 @@ export default function CpiGauge({ value }: CpiGaugeProps) {
           y={p100.y}
           textAnchor="middle"
           dominantBaseline="central"
-          className="fill-neutral-800 text-[10px]"
+          className="fill-foreground/80 text-[10px]"
         >
           100
         </text>
@@ -126,7 +140,7 @@ export default function CpiGauge({ value }: CpiGaugeProps) {
             y={pValue.y}
             textAnchor="middle"
             dominantBaseline="central"
-            className="fill-neutral-900 text-[11px] font-semibold"
+            className="fill-foreground text-[11px] font-semibold"
           >
             {valueLabelText}
           </text>

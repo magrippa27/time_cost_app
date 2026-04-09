@@ -109,7 +109,7 @@ export default function LocalTimePlayer() {
   }
 
   return (
-    <div className="w-full max-w-[560px] rounded-xl overflow-hidden border border-neutral-200 shadow-sm bg-neutral-900 text-white">
+    <div className="w-full max-w-[560px] rounded-xl overflow-hidden border border-border bg-card text-card-foreground shadow-sm">
       <audio ref={audioRef} src={TimeAudio} preload="metadata" />
       <div className="flex items-center gap-4 px-4 py-3">
         <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md">
@@ -119,12 +119,12 @@ export default function LocalTimePlayer() {
           <div className="flex items-center justify-between gap-3">
             <div className="flex flex-col">
               <span className="text-sm font-semibold">Time</span>
-              <span className="text-xs text-neutral-300">Pink Floyd</span>
+              <span className="text-xs text-muted-foreground">Pink Floyd</span>
             </div>
             <button
               type="button"
               onClick={togglePlay}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-black hover:bg-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-emerald-950 hover:bg-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               {isPlaying ? (
                 <span className="text-lg leading-none">❚❚</span>
@@ -135,7 +135,7 @@ export default function LocalTimePlayer() {
           </div>
           <div className="mt-2 flex flex-col gap-1">
             <div
-              className="relative h-1.5 w-full cursor-pointer rounded-full bg-neutral-700"
+              className="relative h-1.5 w-full cursor-pointer rounded-full bg-muted"
               onClick={handleSeek}
             >
               <div
@@ -143,7 +143,7 @@ export default function LocalTimePlayer() {
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
-            <div className="flex items-center justify-between text-[11px] text-neutral-300">
+            <div className="flex items-center justify-between text-[11px] text-muted-foreground">
               <span>{formatTime(currentTime)}</span>
               <span>{formatTime(duration)}</span>
             </div>

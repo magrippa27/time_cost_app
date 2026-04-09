@@ -28,7 +28,7 @@ function SectionHeading({ eyebrow, title }: { eyebrow?: string; title: string })
   return (
     <div className="mx-auto max-w-3xl text-center">
       {eyebrow ? (
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-neutral-500">{eyebrow}</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">{eyebrow}</p>
       ) : null}
       <h3 className="m-0 text-[clamp(1.65rem,3.2vw,2.35rem)] font-semibold leading-tight tracking-tight text-text-default-default">
         {title}
@@ -51,7 +51,7 @@ export default function TimeCostResultsSection({
   return (
     <div className="w-full">
       <section className="mb-12 sm:mb-16">
-        <div className="mx-auto mb-8 max-w-4xl rounded-2xl border border-neutral-200/80 bg-gradient-to-b from-neutral-50/90 to-white px-6 py-10 shadow-sm ring-1 ring-neutral-950/[0.03] sm:px-10 sm:py-12">
+        <div className="mx-auto mb-8 max-w-4xl rounded-2xl border border-border/80 bg-gradient-to-b from-muted/90 to-card px-6 py-10 shadow-sm ring-1 ring-neutral-950/[0.03] sm:px-10 sm:py-12 dark:ring-neutral-100/[0.06]">
           <div className="flex flex-col items-center gap-3 text-center">
             <h2 className="m-0 font-title-hero-font-family font-title-hero-font-weight text-[clamp(2.25rem,6vw,4rem)] tracking-[-0.04em] text-text-default-default">
               Calculated time-cost
@@ -75,13 +75,13 @@ export default function TimeCostResultsSection({
             leisureHoursPerDay={submitted.leisureHoursPerDay}
           />
 
-          <Card className="overflow-hidden rounded-xl border border-neutral-200/90 bg-white p-0 shadow-md shadow-neutral-950/5 ring-1 ring-neutral-950/[0.04]">
-            <div className="border-b border-neutral-100 bg-gradient-to-br from-neutral-50/80 to-white px-5 py-4 sm:px-6">
-              <div className="border-l-[3px] border-neutral-900/15 pl-4">
-                <CardHeader className="m-0 mb-1 p-0 text-lg font-semibold tracking-tight text-neutral-900 sm:text-xl">
+          <Card className="overflow-hidden rounded-xl border border-border/90 bg-card p-0 shadow-md shadow-neutral-950/5 ring-1 ring-neutral-950/[0.04] dark:shadow-neutral-950/20 dark:ring-neutral-100/[0.06]">
+            <div className="border-b border-border bg-gradient-to-br from-muted/80 to-card px-5 py-4 sm:px-6">
+              <div className="border-l-[3px] border-foreground/15 pl-4">
+                <CardHeader className="m-0 mb-1 p-0 text-lg font-semibold tracking-tight text-foreground sm:text-xl">
                   How your 24 hours look
                 </CardHeader>
-                <p className="m-0 text-sm leading-snug text-neutral-500">
+                <p className="m-0 text-sm leading-snug text-muted-foreground">
                   Work, sleep, leisure, and the rest of the day (24h model)
                 </p>
               </div>
@@ -99,7 +99,7 @@ export default function TimeCostResultsSection({
 
       {workPct != null && (
         <div className="mb-12 flex justify-center sm:mb-14">
-          <p className="m-0 max-w-lg rounded-2xl border border-neutral-200/90 bg-white px-6 py-4 text-center text-[clamp(1.25rem,2.8vw,1.75rem)] font-semibold leading-snug text-text-default-default shadow-sm ring-1 ring-neutral-950/[0.04]">
+          <p className="m-0 max-w-lg rounded-2xl border border-border/90 bg-card px-6 py-4 text-center text-[clamp(1.25rem,2.8vw,1.75rem)] font-semibold leading-snug text-text-default-default shadow-sm ring-1 ring-neutral-950/[0.04] dark:ring-neutral-100/[0.06]">
             {`Let\u2019s focus on that ${workPct.toFixed(1)}% of your day spent working.`}
           </p>
         </div>
@@ -113,28 +113,28 @@ export default function TimeCostResultsSection({
       </div>
 
       <section className="mx-auto flex max-w-4xl flex-col gap-12 px-0 sm:gap-14">
-        <div className="rounded-2xl border border-neutral-200/80 bg-neutral-50/40 px-5 py-6 text-center ring-1 ring-neutral-950/[0.03] sm:px-8">
-          <p className="m-0 text-sm leading-relaxed text-neutral-700">
+        <div className="rounded-2xl border border-border/80 bg-muted/40 px-5 py-6 text-center ring-1 ring-neutral-950/[0.03] sm:px-8 dark:ring-neutral-100/[0.06]">
+          <p className="m-0 text-sm leading-relaxed text-foreground/90">
             {countryName && countryName !== "—" ? (
               <>
                 Estimated top personal income tax rate for{" "}
-                <span className="font-semibold text-neutral-900">{countryName}</span>:{" "}
+                <span className="font-semibold text-foreground">{countryName}</span>:{" "}
               </>
             ) : (
               <>Estimated top personal income tax rate: </>
             )}
-            <span className="font-semibold text-neutral-900">{pitInfo.percent}%</span>
+            <span className="font-semibold text-foreground">{pitInfo.percent}%</span>
             {pitInfo.usedFallback ? (
-              <span className="text-neutral-500"> (default — no matching territory in the table)</span>
+              <span className="text-muted-foreground"> (default — no matching territory in the table)</span>
             ) : null}
           </p>
-          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-neutral-500">
+          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-muted-foreground">
             Illustrative only: headline marginal PIT from reference data; excludes social contributions, deductions, and local
             rules.
           </p>
         </div>
 
-        <div className="flex flex-col gap-6 rounded-2xl border border-neutral-200/80 bg-white px-5 py-8 shadow-sm ring-1 ring-neutral-950/[0.03] sm:gap-7 sm:px-8 sm:py-10">
+        <div className="flex flex-col gap-6 rounded-2xl border border-border/80 bg-card px-5 py-8 shadow-sm ring-1 ring-neutral-950/[0.03] sm:gap-7 sm:px-8 sm:py-10 dark:ring-neutral-100/[0.06]">
           <SectionHeading eyebrow="After tax" title="How much you get after taxes" />
           <TaxBreakdownTable
             monthlyIncome={parsePositiveNumber(submitted.monthlyIncome)}
@@ -143,7 +143,7 @@ export default function TimeCostResultsSection({
           />
         </div>
 
-        <div className="flex flex-col gap-6 rounded-2xl border border-neutral-200/80 bg-white px-5 py-8 shadow-sm ring-1 ring-neutral-950/[0.03] sm:gap-7 sm:px-8 sm:py-10">
+        <div className="flex flex-col gap-6 rounded-2xl border border-border/80 bg-card px-5 py-8 shadow-sm ring-1 ring-neutral-950/[0.03] sm:gap-7 sm:px-8 sm:py-10 dark:ring-neutral-100/[0.06]">
           <SectionHeading eyebrow="Time & tax" title="How much of your time is spent for paying taxes?" />
           <TaxTimeSection taxPortionOfYear={taxRate} workHoursPerDay={workHours > 0 ? workHours : 8} />
         </div>

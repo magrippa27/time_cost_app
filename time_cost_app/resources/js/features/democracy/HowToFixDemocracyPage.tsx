@@ -1,8 +1,8 @@
+import { Form, router, usePage } from '@inertiajs/react';
+import { useState } from 'react';
 import DemocracyPostController from '@/actions/App/Http/Controllers/DemocracyPostController';
 import InputError from '@/components/input-error';
 import type { DemocracyPostProps } from '@/features/democracy/types';
-import { Form, router, usePage } from '@inertiajs/react';
-import { useState } from 'react';
 
 const DEFAULT_TITLE = 'My thoughts on this topic';
 
@@ -29,7 +29,10 @@ function PostCard({
     }
 
     function handleDelete() {
-        if (!window.confirm('Delete this post?')) return;
+        if (!window.confirm('Delete this post?')) {
+return;
+}
+
         router.delete(
             DemocracyPostController.destroy.url({ democracy_post: post.id }),
             { preserveScroll: true },
@@ -37,9 +40,9 @@ function PostCard({
     }
 
     return (
-        <article className="flex rounded-lg border-2 border-neutral-200 bg-white shadow-sm overflow-hidden min-h-[223px]">
+        <article className="flex rounded-lg border-2 border-border bg-card shadow-sm overflow-hidden min-h-[223px]">
             <div
-                className="w-10 shrink-0 bg-neutral-100 flex flex-col items-center justify-start py-2 px-1.5"
+                className="w-10 shrink-0 bg-muted flex flex-col items-center justify-start py-2 px-1.5"
                 aria-label="Upvotes"
             >
                 <button
@@ -78,7 +81,7 @@ function PostCard({
                                     name="title"
                                     value={editTitle}
                                     onChange={(e) => setEditTitle(e.target.value)}
-                                    className="w-full border border-neutral-200 rounded-md px-2 py-1.5 text-lg font-medium text-neutral-900 outline-none focus:border-neutral-400"
+                                    className="w-full border border-border rounded-md px-2 py-1.5 text-lg font-medium text-foreground outline-none focus:border-ring bg-background"
                                 />
                                 <InputError message={errors.title} />
                                 <textarea
@@ -86,21 +89,21 @@ function PostCard({
                                     value={editBody}
                                     onChange={(e) => setEditBody(e.target.value)}
                                     rows={5}
-                                    className="w-full border border-neutral-200 rounded-md px-2 py-1.5 resize-none text-sm text-neutral-900 outline-none focus:border-neutral-400 leading-[1.5]"
+                                    className="w-full border border-border rounded-md px-2 py-1.5 resize-none text-sm text-foreground outline-none focus:border-ring leading-[1.5] bg-background"
                                 />
                                 <InputError message={errors.body} />
                                 <div className="flex items-center gap-2 flex-wrap">
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="rounded-full bg-neutral-900 text-white text-sm font-medium px-4 py-2 hover:bg-black disabled:opacity-50"
+                                        className="rounded-full bg-primary text-primary-foreground text-sm font-medium px-4 py-2 hover:bg-primary/90 disabled:opacity-50"
                                     >
                                         Save
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setEditing(false)}
-                                        className="rounded-full border border-neutral-300 text-sm font-medium px-4 py-2 hover:bg-neutral-50"
+                                        className="rounded-full border border-border text-sm font-medium px-4 py-2 hover:bg-muted"
                                     >
                                         Cancel
                                     </button>
@@ -111,7 +114,7 @@ function PostCard({
                 ) : (
                     <>
                         <div className="flex items-start justify-between gap-2 min-w-0">
-                            <h3 className="font-medium text-lg text-neutral-900 leading-tight">
+                            <h3 className="font-medium text-lg text-foreground leading-tight">
                                 {displayTitle(post.title)}
                             </h3>
                             {isOwner ? (
@@ -119,7 +122,7 @@ function PostCard({
                                     <button
                                         type="button"
                                         onClick={startEdit}
-                                        className="text-xs font-medium text-neutral-600 hover:text-neutral-900 px-2 py-1 rounded"
+                                        className="text-xs font-medium text-muted-foreground hover:text-foreground px-2 py-1 rounded"
                                     >
                                         Edit
                                     </button>
@@ -133,10 +136,10 @@ function PostCard({
                                 </div>
                             ) : null}
                         </div>
-                        <p className="text-xs text-neutral-500">
+                        <p className="text-xs text-muted-foreground">
                             {post.author_name}
                         </p>
-                        <p className="text-sm text-neutral-800 leading-[1.5] line-clamp-5">
+                        <p className="text-sm text-foreground/90 leading-[1.5] line-clamp-5">
                             {post.body}
                         </p>
                     </>
@@ -157,9 +160,9 @@ export default function HowToFixDemocracyPage({
     const [composerBody, setComposerBody] = useState('');
 
     return (
-        <div className="w-full min-h-screen bg-white">
+        <div className="w-full min-h-screen bg-background">
             <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-8 pb-24">
-                <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-tight text-neutral-900 mb-10">
+                <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-tight text-foreground mb-10">
                     How to fix Democracy?
                 </h1>
 
@@ -180,7 +183,7 @@ export default function HowToFixDemocracyPage({
                         setComposerTitle('');
                         setComposerBody('');
                     }}
-                    className="rounded-lg border-2 border-neutral-300 bg-white shadow-sm overflow-hidden focus-within:border-neutral-500 focus-within:ring-2 focus-within:ring-neutral-400/20 focus-within:ring-offset-0 max-w-3xl mx-auto"
+                    className="rounded-lg border-2 border-input bg-card shadow-sm overflow-hidden focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/50 focus-within:ring-offset-0 max-w-3xl mx-auto"
                 >
                     {({ processing, errors }) => (
                         <>
@@ -193,7 +196,7 @@ export default function HowToFixDemocracyPage({
                                         setComposerTitle(e.target.value)
                                     }
                                     placeholder="Post title (optional)"
-                                    className="w-full border-0 outline-none text-lg font-medium text-neutral-900 placeholder:text-neutral-400 bg-transparent mb-2"
+                                    className="w-full border-0 outline-none text-lg font-medium text-foreground placeholder:text-muted-foreground bg-transparent mb-2"
                                 />
                                 <InputError message={errors.title} />
                                 <textarea
@@ -204,13 +207,13 @@ export default function HowToFixDemocracyPage({
                                     }
                                     placeholder="What are your thoughts?"
                                     rows={4}
-                                    className="w-full border-0 outline-none resize-none text-sm text-neutral-900 placeholder:text-neutral-400 bg-transparent leading-[1.5]"
+                                    className="w-full border-0 outline-none resize-none text-sm text-foreground placeholder:text-muted-foreground bg-transparent leading-[1.5]"
                                 />
                                 <InputError message={errors.body} />
                             </div>
-                            <div className="flex items-center justify-between gap-2 px-3 py-2 bg-neutral-50 border-t border-neutral-200">
+                            <div className="flex items-center justify-between gap-2 px-3 py-2 bg-muted/50 border-t border-border">
                                 <div className="flex items-center gap-1">
-                                    <span className="text-xs text-neutral-500">
+                                    <span className="text-xs text-muted-foreground">
                                         Add your answer
                                     </span>
                                 </div>
@@ -219,7 +222,7 @@ export default function HowToFixDemocracyPage({
                                     disabled={
                                         processing || !composerBody.trim()
                                     }
-                                    className="rounded-full bg-neutral-900 text-white text-sm font-medium px-4 py-2 flex items-center gap-2 hover:bg-black focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none transition-colors cursor-pointer"
+                                    className="rounded-full bg-primary text-primary-foreground text-sm font-medium px-4 py-2 flex items-center gap-2 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none transition-colors cursor-pointer"
                                 >
                                     <svg
                                         width="16"

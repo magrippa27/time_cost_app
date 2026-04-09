@@ -33,19 +33,35 @@ function normalizeCountryName(s: string): string {
 function parseCpiCsv(text: string): Map<string, number> {
   const map = new Map<string, number>();
   const lines = text.trim().split(/\r?\n/);
+
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i];
-    if (!line.trim()) continue;
+
+    if (!line.trim()) {
+continue;
+}
+
     const firstComma = line.indexOf(",");
-    if (firstComma === -1) continue;
+
+    if (firstComma === -1) {
+continue;
+}
+
     const score = Number(line.slice(0, firstComma));
-    if (!Number.isFinite(score)) continue;
+
+    if (!Number.isFinite(score)) {
+continue;
+}
+
     let country = line.slice(firstComma + 1);
+
     if (country.startsWith('"')) {
       country = country.slice(1, -1).replace(/""/g, '"');
     }
+
     map.set(normalizeCountryName(country), score);
   }
+
   return map;
 }
 
@@ -55,6 +71,7 @@ function getCpiMap(): Map<string, number> {
   if (!cachedMap) {
     cachedMap = parseCpiCsv(cpiCsv);
   }
+
   return cachedMap;
 }
 
@@ -62,25 +79,34 @@ export function getCpiScoreForCountryCode(countryCode: string): number {
   if (!countryCode?.trim()) {
     return FALLBACK;
   }
+
   const code = countryCode.trim().toUpperCase();
   const map = getCpiMap();
   const manual = MANUAL_ISO_TO_CSV_NAME[code];
+
   if (manual !== undefined) {
     const manualScore = map.get(normalizeCountryName(manual));
+
     if (manualScore !== undefined) {
       return manualScore;
     }
   }
+
   const name = getCountryName(code);
+
   if (name === "—") {
     return FALLBACK;
   }
+
   if (name === code && code.length === 2) {
     return FALLBACK;
   }
+
   const score = map.get(normalizeCountryName(name));
+
   if (score !== undefined) {
     return score;
   }
+
   return FALLBACK;
 }
