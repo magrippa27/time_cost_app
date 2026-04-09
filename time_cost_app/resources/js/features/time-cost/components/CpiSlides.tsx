@@ -21,19 +21,19 @@ function CpiScaleExplanation({ variant }: { variant: "mobile" | "desktop" }) {
   const titleClass =
     variant === "desktop"
       ? "m-0 text-[18px] leading-[1.35] font-title-hero-font-family font-title-hero-font-weight tracking-[0.08em] uppercase text-foreground"
-      : "m-0 text-[clamp(0.95rem,3.2vw,1.05rem)] leading-[1.35] font-title-hero-font-family font-title-hero-font-weight tracking-[0.06em] uppercase text-foreground";
+      : "m-0 text-[clamp(0.95rem,3.2vw,1.05rem)] leading-[1.55] font-title-hero-font-family font-title-hero-font-weight tracking-[0.06em] uppercase text-foreground";
 
   const bodyClass =
     variant === "desktop"
       ? "m-0 mt-4 text-[14px] leading-[1.45] text-text-default-default"
-      : "m-0 mt-4 text-sm leading-[1.45] text-text-default-default";
+      : "m-0 text-sm leading-[1.55] text-text-default-default";
 
   return (
-    <div className="w-full max-w-xl">
+    <div className="flex w-full max-w-xl flex-col gap-4">
       <p className={titleClass}>
         The CPI uses a scale from <span className="font-extrabold">0 to 100</span>
       </p>
-      <div className="mt-3 flex items-center gap-2">
+      <div className="flex items-center gap-2">
         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-text-default-default" />
         <div className="h-px flex-1 max-w-[200px] bg-text-default-default" />
       </div>
@@ -48,22 +48,22 @@ function CpiScaleExplanation({ variant }: { variant: "mobile" | "desktop" }) {
 export default function CpiSlides({ cpiValue, countryName }: CpiSlidesProps) {
   return (
     <div className="w-full bg-background-default-default">
-      <section className="min-h-screen w-full flex items-start">
-        <div className="max-w-[1440px] mx-auto w-full">
-          <div className="relative min-h-screen px-6 py-16 lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
-            <div className="lg:hidden text-left">
-              <h2 className="m-0 text-[clamp(2.6rem,7vw,3.6rem)] leading-[1.05] font-title-hero-font-family font-title-hero-font-weight tracking-[-1.2px] text-text-default-default">
+      <section className="flex w-full min-h-0 items-start lg:min-h-screen">
+        <div className="mx-auto w-full max-w-[1440px]">
+          <div className="relative min-h-0 px-4 py-20 sm:px-6 sm:py-24 lg:min-h-screen lg:px-0 lg:py-16 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
+            <div className="flex flex-col gap-10 text-left sm:gap-12 lg:hidden">
+              <h2 className="m-0 text-[clamp(2.35rem,6vw,3.6rem)] leading-snug font-title-hero-font-family font-title-hero-font-weight tracking-[-1.2px] text-text-default-default">
                 What then?
               </h2>
-              <div className="mt-10 space-y-8">
-                <p className="text-sm leading-[1.45] text-text-default-default">
+              <div className="flex flex-col gap-8 sm:gap-10">
+                <p className="m-0 text-sm leading-[1.55] text-text-default-default">
                   Taxes are a necessary part of society. They help maintain healthcare, security, education, infrastructure,
                   and common services. In this sense, investing part of your time into taxes is fair and necessary.
                 </p>
-                <p className="m-0 text-[clamp(1.8rem,6vw,2.4rem)] leading-[1.1] font-semibold text-text-default-default">
+                <p className="m-0 text-[clamp(1.65rem,5.5vw,2.4rem)] leading-snug font-semibold text-text-default-default">
                   But your time is limited.
                 </p>
-                <p className="text-sm leading-[1.45] text-text-default-default">
+                <p className="m-0 text-sm leading-[1.55] text-text-default-default">
                   And the question is not only how much time you give, but what happens to that time. What if the time you
                   work so hard to give is wasted, misused, or even stolen?
                 </p>
@@ -115,11 +115,11 @@ export default function CpiSlides({ cpiValue, countryName }: CpiSlidesProps) {
         </div>
       </section>
 
-      <section className="min-h-screen w-full flex items-center">
-        <div className="max-w-[1440px] mx-auto w-full">
-          <div className="relative min-h-screen px-6 py-16 lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
-            <div className="lg:hidden space-y-8">
-              <h3 className="m-0 text-[clamp(2rem,6vw,2.6rem)] font-semibold text-text-default-default leading-tight">
+      <section className="flex w-full min-h-0 items-center lg:min-h-screen">
+        <div className="mx-auto w-full max-w-[1440px]">
+          <div className="relative min-h-0 px-4 py-20 sm:px-6 sm:py-24 lg:min-h-screen lg:px-0 lg:py-16 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
+            <div className="flex flex-col gap-16 sm:gap-20 lg:hidden">
+              <h3 className="m-0 text-[clamp(1.85rem,5.5vw,2.6rem)] font-semibold leading-snug tracking-[-0.02em] text-text-default-default">
                 {countryName && countryName !== "—" ? (
                   <>
                     Your country, {countryName}, has a corruption perception index of {cpiValue}
@@ -132,10 +132,10 @@ export default function CpiSlides({ cpiValue, countryName }: CpiSlidesProps) {
                 <CpiGauge value={cpiValue} />
               </div>
               <CpiScaleExplanation variant="mobile" />
-              <p className="text-sm leading-[1.45] text-text-default-default">
+              <p className="m-0 text-sm leading-[1.55] text-text-default-default">
                 This means there is a higher risk that part of your time, paid through taxes, does not turn into real public benefit.
               </p>
-              <h3 className="m-0 text-[clamp(1.5rem,5vw,2rem)] font-semibold text-text-default-default leading-tight">
+              <h3 className="m-0 text-[clamp(1.45rem,4.5vw,2rem)] font-semibold leading-snug tracking-[-0.02em] text-text-default-default">
                 Are you sure your time is being respected by the politicians of your country?
               </h3>
             </div>
@@ -167,29 +167,29 @@ export default function CpiSlides({ cpiValue, countryName }: CpiSlidesProps) {
         </div>
       </section>
 
-      <section className="min-h-screen w-full flex items-center">
-        <div className="max-w-[1440px] mx-auto w-full">
-          <div className="relative min-h-screen px-6 py-16 lg:min-h-[1420px] lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24 lg:pb-24">
-            <div className="lg:hidden space-y-10">
-              <h3 className="m-0 text-[clamp(2rem,6vw,2.8rem)] font-semibold text-text-default-default">Get involved.</h3>
-              <div className="space-y-3">
-                <p className="m-0 text-[clamp(1.4rem,5vw,2rem)] font-semibold text-text-default-default">Educate yourself</p>
-                <p className="text-sm leading-[1.45] text-text-default-default">
+      <section className="flex w-full min-h-0 items-center lg:min-h-screen">
+        <div className="mx-auto w-full max-w-[1440px]">
+          <div className="relative min-h-0 px-4 py-20 sm:px-6 sm:py-24 lg:min-h-[1420px] lg:px-0 lg:py-16 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24 lg:pb-24">
+            <div className="flex flex-col gap-16 sm:gap-20 lg:hidden">
+              <h3 className="m-0 text-[clamp(1.85rem,5.5vw,2.8rem)] font-semibold leading-snug tracking-[-0.02em] text-text-default-default">Get involved.</h3>
+              <div className="flex flex-col gap-3">
+                <p className="m-0 text-[clamp(1.35rem,4.8vw,2rem)] font-semibold leading-snug text-text-default-default">Educate yourself</p>
+                <p className="m-0 text-sm leading-[1.55] text-text-default-default">
                   You have access to more human knowledge than at any time in history — a modern Library of Alexandria.
                 </p>
               </div>
-              <div className="space-y-3">
-                <p className="m-0 text-[clamp(1.4rem,5vw,2rem)] font-semibold text-text-default-default">Develop critical thinking</p>
-                <p className="text-sm leading-[1.45] text-text-default-default">Listen, question, and respect different opinions.</p>
+              <div className="flex flex-col gap-3">
+                <p className="m-0 text-[clamp(1.35rem,4.8vw,2rem)] font-semibold leading-snug text-text-default-default">Develop critical thinking</p>
+                <p className="m-0 text-sm leading-[1.55] text-text-default-default">Listen, question, and respect different opinions.</p>
               </div>
-              <h3 className="m-0 text-[clamp(1.9rem,6vw,2.7rem)] font-semibold text-text-default-default">
+              <h3 className="m-0 text-[clamp(1.75rem,5.5vw,2.7rem)] font-semibold leading-snug tracking-[-0.02em] text-text-default-default">
                 Time is all you truly have.
               </h3>
-              <blockquote className="mx-auto mt-10 mb-16 max-w-2xl border-r-4 border-border pr-6 py-2 italic text-right text-[20px] leading-[1.5] text-foreground">
+              <blockquote className="mx-auto mb-10 max-w-2xl border-r-4 border-border py-4 pr-4 italic text-right text-[20px] leading-[1.55] text-foreground sm:mb-16 sm:pr-6">
                 <p className="m-0">
                   “The price good men pay for indifference to public affairs is to be ruled by inferior men.”
                 </p>
-                <footer className="mt-2 not-italic text-[18px] text-text-default-default">— Plato</footer>
+                <footer className="mt-3 not-italic text-[18px] leading-normal text-text-default-default">— Plato</footer>
               </blockquote>
             </div>
 

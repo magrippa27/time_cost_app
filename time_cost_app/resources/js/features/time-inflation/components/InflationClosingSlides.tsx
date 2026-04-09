@@ -1,25 +1,25 @@
 export default function InflationClosingSlides() {
   return (
     <div className="w-full bg-background-default-default">
-      <section className="min-h-screen w-full flex items-start">
-        <div className="max-w-[1440px] mx-auto w-full">
-          <div className="relative min-h-screen px-6 py-16 lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
-            <div className="lg:hidden space-y-10 text-left">
-              <h2 className="m-0 text-[clamp(2.6rem,5.4vw,4.2rem)] leading-[1.05] font-semibold text-foreground">
+      <section className="flex w-full min-h-0 items-start lg:min-h-screen">
+        <div className="mx-auto w-full max-w-[1440px]">
+          <div className="relative min-h-0 px-4 py-20 sm:px-6 sm:py-24 lg:min-h-screen lg:px-0 lg:py-16 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
+            <div className="flex flex-col gap-16 text-left sm:gap-20 lg:hidden">
+              <h2 className="m-0 text-[clamp(2.35rem,5vw,4.2rem)] leading-snug font-semibold tracking-[-0.02em] text-foreground">
                 Inflation does not just increase prices.
                 <br />
                 It increases the amount of your life
                 <br />
                 you need to give away
               </h2>
-              <p className="m-0 max-w-[min(100%,580px)] text-left text-[15px] leading-[1.45] text-text-default-default">
+              <p className="m-0 max-w-[min(100%,580px)] text-left text-[15px] leading-[1.55] text-text-default-default">
                 When inflation is not caused by natural economic growth,
                 <br />
                 but by excessive money creation to finance public deficits or short-term political goals,
                 <br />
                 the cost is paid in people’s time.
               </p>
-              <p className="m-0 text-[clamp(2.3rem,4.8vw,3.6rem)] leading-[1.1] font-semibold text-foreground">
+              <p className="m-0 text-[clamp(2.1rem,4.5vw,3.6rem)] leading-snug font-semibold tracking-[-0.02em] text-foreground">
                 You work more hours,
                 <br />
                 not to improve your life,
@@ -65,28 +65,28 @@ export default function InflationClosingSlides() {
         </div>
       </section>
 
-      <section className="min-h-screen w-full flex items-center">
-        <div className="max-w-[1440px] mx-auto w-full">
-          <div className="relative min-h-screen px-6 py-16 lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
-            <div className="lg:hidden space-y-10">
-              <h2 className="m-0 text-[clamp(2.6rem,5.4vw,4.2rem)] leading-[1.05] font-semibold text-foreground">
+      <section className="flex w-full min-h-0 items-center lg:min-h-screen">
+        <div className="mx-auto w-full max-w-[1440px]">
+          <div className="relative min-h-0 px-4 py-20 sm:px-6 sm:py-24 lg:min-h-screen lg:px-0 lg:py-16 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24">
+            <div className="flex flex-col gap-16 sm:gap-20 lg:hidden">
+              <h2 className="m-0 text-[clamp(2.35rem,5vw,4.2rem)] leading-snug font-semibold tracking-[-0.02em] text-foreground">
                 Inflation does not hurt everyone
                 <br />
                 equally.
               </h2>
-              <h2 className="m-0 text-right text-[clamp(2.6rem,5.4vw,4.2rem)] leading-[1.05] font-semibold text-foreground max-w-[min(100%,640px)] ml-auto">
+              <h2 className="m-0 text-right text-[clamp(2.35rem,5vw,4.2rem)] leading-snug font-semibold tracking-[-0.02em] text-foreground max-w-[min(100%,640px)] ml-auto">
                 People with lower incomes,
                 <br />
                 suffer the most.
               </h2>
-              <p className="m-0 text-[15px] leading-[1.45] text-text-default-default">
+              <p className="m-0 text-[15px] leading-[1.55] text-text-default-default">
                 They spend a larger share of their income on basic goods,
                 <br />
                 have little or no savings,
                 <br />
                 and are affected first when prices rise.
               </p>
-              <p className="m-0 text-right text-[clamp(2.3rem,4.8vw,3.6rem)] leading-[1.1] font-semibold text-foreground max-w-[min(100%,720px)] ml-auto">
+              <p className="m-0 text-right text-[clamp(2.1rem,4.5vw,3.6rem)] leading-snug font-semibold tracking-[-0.02em] text-foreground max-w-[min(100%,720px)] ml-auto">
                 Inflation takes more time
                 <br />
                 from those who have the least time to lose
@@ -132,23 +132,23 @@ export default function InflationClosingSlides() {
         </div>
       </section>
 
-      <section className="min-h-screen w-full flex items-center">
-        <div className="max-w-[1440px] mx-auto w-full">
-          <div className="relative min-h-screen px-6 py-16 lg:min-h-[1280px] lg:px-0 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24 lg:pb-24">
-            <div className="lg:hidden space-y-12">
-              <p className="m-0 text-left text-[15px] leading-[1.45] text-text-default-default">
+      <section className="flex w-full min-h-0 items-center lg:min-h-screen">
+        <div className="mx-auto w-full max-w-[1440px]">
+          <div className="relative min-h-0 px-4 py-20 sm:px-6 sm:py-24 lg:min-h-[1280px] lg:px-0 lg:py-16 lg:max-w-[1100px] lg:mx-auto lg:transform lg:-translate-x-24 lg:pb-24">
+            <div className="flex flex-col gap-16 sm:gap-20 lg:hidden">
+              <p className="m-0 text-left text-[15px] leading-[1.55] text-text-default-default">
                 Inflation silently changes the value of your work.
                 <br />
                 It does not take your job — it takes more of your life.
               </p>
-              <h2 className="m-0 text-right text-[clamp(2.8rem,6vw,4.2rem)] leading-[1.05] font-semibold text-foreground max-w-[min(100%,720px)] ml-auto">
+              <h2 className="m-0 text-right text-[clamp(2.35rem,5.5vw,4.2rem)] leading-snug font-semibold tracking-[-0.02em] text-foreground max-w-[min(100%,720px)] ml-auto">
                 Your time is what politics spends.
               </h2>
-              <blockquote className="ml-auto max-w-2xl border-r-4 border-border pr-6 py-2 italic text-right text-[20px] leading-[1.5] text-foreground">
+              <blockquote className="ml-auto max-w-2xl border-r-4 border-border py-4 pr-6 italic text-right text-[20px] leading-[1.55] text-foreground">
                 <p className="m-0">
                   &quot;Inflation is always and everywhere a monetary phenomenon.&quot;
                 </p>
-                <footer className="mt-2 not-italic text-[18px] text-text-default-default">— Milton Friedman</footer>
+                <footer className="mt-3 not-italic text-[18px] leading-normal text-text-default-default">— Milton Friedman</footer>
               </blockquote>
             </div>
 

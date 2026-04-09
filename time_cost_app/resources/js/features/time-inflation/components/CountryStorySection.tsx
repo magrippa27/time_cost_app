@@ -166,7 +166,7 @@ export default function CountryStorySection({
   return (
     <section
       ref={sectionRef}
-      className="mt-14 rounded-[4px] bg-card px-6 py-10 shadow-sm border border-border scroll-mt-8 sm:px-10 sm:py-14"
+      className="mt-8 scroll-mt-8 rounded-[4px] border border-border bg-card px-4 py-6 shadow-sm sm:mt-12 sm:px-6 sm:py-10 lg:mt-14 lg:px-10 lg:py-14"
       aria-label="Country story"
     >
       <h2 className="m-0 text-center text-[clamp(2rem,4vw,3rem)] font-semibold text-foreground leading-[1.1]">
@@ -174,7 +174,7 @@ export default function CountryStorySection({
         <span className="block mt-1 text-foreground/90">{countryName || "—"}</span>
       </h2>
 
-      <div className="mt-8 rounded-xl border border-border bg-muted/80 px-4 py-4 text-left text-sm text-foreground/90 sm:px-5">
+      <div className="mt-5 rounded-xl border border-border bg-muted/80 px-3 py-3 text-left text-sm text-foreground/90 sm:mt-8 sm:px-5 sm:py-4">
         <p className="m-0 font-medium text-foreground">What this shows</p>
         <p className="mt-2 m-0 leading-relaxed text-foreground/80">
           Data window <span className="font-semibold text-foreground">{yearsStart ?? "—"}–{yearsEnd ?? "—"}</span>
@@ -202,7 +202,7 @@ export default function CountryStorySection({
         )}
       </div>
 
-      <div className="mt-10 w-full max-w-[640px] mx-auto space-y-10">
+      <div className="mx-auto mt-6 w-full max-w-[640px] space-y-6 sm:mt-10 sm:space-y-10">
         <div>
           <h3 className="m-0 text-center text-base font-semibold text-foreground">
             Hours of work per day for the same basket
@@ -381,11 +381,11 @@ export default function CountryStorySection({
         </div>
       </div>
 
-      <div className="mt-10 max-w-xl mx-auto text-foreground/90">
+      <div className="mx-auto mt-6 max-w-xl text-foreground/90 sm:mt-10">
         <p className="m-0 text-center text-[13px] font-semibold uppercase tracking-wide text-muted-foreground">
           Hours of work per day for the same basket of goods
         </p>
-        <div className="mt-8 space-y-6 text-left text-[17px] leading-[1.5]">
+        <div className="mt-5 space-y-4 text-left text-[17px] leading-[1.5] sm:mt-8 sm:space-y-6">
           <div>
             <p className="m-0 text-[15px] font-semibold text-foreground">Past year: {startLabel}</p>
             <p className="mt-1.5 m-0 text-foreground/90">
@@ -401,7 +401,7 @@ export default function CountryStorySection({
         </div>
         {closingInsight && (
           <p
-            className={`mt-10 text-center text-[15px] leading-snug ${
+            className={`mt-6 text-center text-[15px] leading-snug sm:mt-10 ${
               deltaHours != null && deltaHours < 0
                 ? "text-emerald-800 dark:text-emerald-300"
                 : "text-foreground/90"

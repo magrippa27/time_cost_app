@@ -11,8 +11,6 @@ import UserInfoCard from "./components/UserInfoCard";
 
 export default function TimeInflationPage() {
   const resultsRef = useRef<HTMLDivElement>(null);
-  const definitionsRef = useRef<HTMLElement>(null);
-  const countryStoryRef = useRef<HTMLElement>(null);
   const [country, setCountry] = useState("");
   const [age, setAge] = useState("");
   const [monthlyIncome1, setMonthlyIncome1] = useState("");
@@ -63,17 +61,6 @@ export default function TimeInflationPage() {
     }
 
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    const t = window.setTimeout(() => {
-      definitionsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 2200);
-    const t2 = window.setTimeout(() => {
-      countryStoryRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 4600);
-
-    return () => {
-      window.clearTimeout(t);
-      window.clearTimeout(t2);
-    };
   }, [submitted]);
 
   function parsePositiveNumber(value: string) {
@@ -197,8 +184,7 @@ export default function TimeInflationPage() {
   return (
     <div className="w-full min-h-screen bg-background-default-default">
       <section
-        className="relative flex w-full flex-col items-center justify-center gap-5 px-4 py-24 sm:gap-6 sm:px-6 sm:py-32 md:px-8 lg:px-space-600 lg:py-[120px] xl:py-[160px]"
-        style={{ minHeight: "min(100vh, 560px)" }}
+        className="relative flex min-h-[min(72svh,380px)] w-full flex-col items-center justify-center gap-4 px-4 py-14 sm:min-h-[min(80svh,460px)] sm:gap-5 sm:px-6 sm:py-20 md:px-8 md:py-24 lg:min-h-[535px] lg:gap-6 lg:px-space-600 lg:py-[120px] xl:py-[160px]"
         aria-label="Hero"
       >
         <div className="pointer-events-none absolute inset-0">
@@ -209,7 +195,7 @@ export default function TimeInflationPage() {
           />
           <div className="absolute inset-0 bg-background-utilities-scrim" />
         </div>
-        <div className="relative z-10 mx-auto flex w-full max-w-[min(100%,40rem)] flex-col items-center gap-5 text-center font-title-hero-font-family text-text-utilities-text-on-overlay sm:max-w-[900px] sm:gap-6">
+        <div className="relative z-10 mx-auto flex w-full max-w-[min(100%,40rem)] flex-col items-center gap-4 text-center font-title-hero-font-family text-text-utilities-text-on-overlay sm:max-w-[900px] sm:gap-5 lg:gap-6">
           <h1 className="m-0 w-full font-title-hero-font-weight text-[clamp(2.5rem,9vw,7rem)] leading-[1.05] tracking-[-0.045em]">
             {"Time\u2011Inflation"}
           </h1>
@@ -219,15 +205,15 @@ export default function TimeInflationPage() {
         </div>
       </section>
 
-      <div className="max-w-[900px] mx-auto px-6 pb-8 pt-4">
-        <h2 className="text-[clamp(1.5rem,3vw,2rem)] font-semibold text-text-default-default mb-1">
+      <div className="mx-auto max-w-[900px] px-4 pb-6 pt-3 sm:px-6 sm:pb-8 sm:pt-4">
+        <h2 className="mb-1 text-[clamp(1.35rem,3vw,2rem)] font-semibold text-text-default-default">
           Calculate how much here
         </h2>
-        <p className="text-subheading-size-medium text-text-default-secondary mb-8">
+        <p className="mb-5 text-subheading-size-medium text-text-default-secondary sm:mb-8">
           (No need to include real data)
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="mb-6 grid grid-cols-1 gap-4 sm:mb-8 md:grid-cols-2 md:gap-6">
           <CountrySelect
             value={country}
             onChange={setCountry}
@@ -265,7 +251,7 @@ export default function TimeInflationPage() {
           </div>
         )}
 
-        <div className="flex justify-center mb-24">
+        <div className="mb-10 flex justify-center sm:mb-16 lg:mb-24">
           <Star
             label="Proceed"
             loading={isSubmitting}
@@ -286,11 +272,11 @@ export default function TimeInflationPage() {
               hoursPerDay={submitted.hoursPerDay}
             />
 
-            <DefinitionsSection sectionRef={definitionsRef} />
+            <DefinitionsSection />
 
             {apiLoading && (
               <div
-                className="mt-8 flex flex-col items-center justify-center gap-4 rounded-2xl border border-border/80 bg-card px-6 py-12 shadow-sm ring-1 ring-neutral-950/[0.03] dark:ring-neutral-100/[0.06]"
+                className="mt-6 flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/80 bg-card px-4 py-8 shadow-sm ring-1 ring-neutral-950/[0.03] sm:mt-8 sm:gap-4 sm:px-6 sm:py-12 dark:ring-neutral-100/[0.06]"
                 role="status"
                 aria-live="polite"
                 aria-busy="true"
@@ -313,7 +299,6 @@ export default function TimeInflationPage() {
 
             {apiResult && !apiLoading && (
               <CountryStorySection
-                sectionRef={countryStoryRef}
                 countryName={getCountryName(submitted.countryCode) || ""}
                 yearsStart={apiResult.yearsStart ?? null}
                 yearsEnd={apiResult.yearsEnd ?? null}

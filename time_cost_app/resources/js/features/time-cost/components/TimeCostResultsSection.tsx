@@ -1,4 +1,3 @@
-import type { Ref } from "react";
 import { Card, CardContent, CardHeader } from "../../../shared/components/ui";
 import { getCpiScoreForCountryCode } from "../getCpiScore";
 import { getPitRateInfo } from "../getPitRate";
@@ -23,8 +22,6 @@ type TimeCostResultsSectionProps = {
   submitted: Submitted;
   parsePositiveNumber: (value: string) => number | null;
   countryName: string;
-  moneyTablesRef?: Ref<HTMLElement>;
-  cpiSlidesRef?: Ref<HTMLElement>;
 };
 
 function SectionHeading({ eyebrow, title }: { eyebrow?: string; title: string }) {
@@ -44,8 +41,6 @@ export default function TimeCostResultsSection({
   submitted,
   parsePositiveNumber,
   countryName,
-  moneyTablesRef,
-  cpiSlidesRef,
 }: TimeCostResultsSectionProps) {
   const workHours = parsePositiveNumber(submitted.workHoursPerDay) ?? 0;
   const cpiValue = getCpiScoreForCountryCode(submitted.countryCode);
@@ -55,9 +50,9 @@ export default function TimeCostResultsSection({
 
   return (
     <div className="w-full">
-      <section className="mb-12 sm:mb-16">
-        <div className="mx-auto mb-8 max-w-4xl rounded-2xl border border-border/80 bg-gradient-to-b from-muted/90 to-card px-6 py-10 shadow-sm ring-1 ring-neutral-950/[0.03] sm:px-10 sm:py-12 dark:ring-neutral-100/[0.06]">
-          <div className="flex flex-col items-center gap-3 text-center">
+      <section className="mb-8 sm:mb-12 lg:mb-16">
+        <div className="mx-auto mb-6 max-w-4xl rounded-2xl border border-border/80 bg-gradient-to-b from-muted/90 to-card px-4 py-6 shadow-sm ring-1 ring-neutral-950/[0.03] sm:mb-8 sm:px-6 sm:py-10 lg:px-10 lg:py-12 dark:ring-neutral-100/[0.06]">
+          <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
             <h2 className="m-0 font-title-hero-font-family font-title-hero-font-weight text-[clamp(2.25rem,6vw,4rem)] tracking-[-0.04em] text-text-default-default">
               Calculated time-cost
             </h2>
@@ -65,12 +60,12 @@ export default function TimeCostResultsSection({
               Earphones recommended for the audio below.
             </p>
           </div>
-          <div className="mt-8 flex justify-center">
+          <div className="mt-4 flex justify-center sm:mt-8">
             <LocalTimePlayer />
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 items-stretch gap-4 sm:gap-6 lg:grid-cols-2 lg:gap-8">
           <TimeCostUserInfoCard
             countryName={countryName}
             age={submitted.age}
@@ -103,26 +98,22 @@ export default function TimeCostResultsSection({
       </section>
 
       {workPct != null && (
-        <div className="mb-12 flex justify-center sm:mb-14">
-          <p className="m-0 max-w-lg rounded-2xl border border-border/90 bg-card px-6 py-4 text-center text-[clamp(1.25rem,2.8vw,1.75rem)] font-semibold leading-snug text-text-default-default shadow-sm ring-1 ring-neutral-950/[0.04] dark:ring-neutral-100/[0.06]">
+        <div className="mb-8 flex justify-center sm:mb-12 lg:mb-14">
+          <p className="m-0 max-w-lg rounded-2xl border border-border/90 bg-card px-4 py-3 text-center text-[clamp(1.15rem,2.8vw,1.75rem)] font-semibold leading-snug text-text-default-default shadow-sm ring-1 ring-neutral-950/[0.04] sm:px-6 sm:py-4 dark:ring-neutral-100/[0.06]">
             {`Let\u2019s focus on that ${workPct.toFixed(1)}% of your day spent working.`}
           </p>
         </div>
       )}
 
-      <section
-        ref={moneyTablesRef}
-        className="mx-auto mb-12 max-w-4xl scroll-mt-8 sm:mb-16"
-        aria-label="Earnings by time period"
-      >
+      <div className="mx-auto mb-8 max-w-4xl sm:mb-12 lg:mb-16">
         <TimeToMoneyTable
           monthlyIncome={parsePositiveNumber(submitted.monthlyIncome)}
           workHoursPerDay={parsePositiveNumber(submitted.workHoursPerDay)}
         />
-      </section>
+      </div>
 
-      <section className="mx-auto flex max-w-4xl flex-col gap-12 px-0 sm:gap-14">
-        <div className="rounded-2xl border border-border/80 bg-muted/40 px-5 py-6 text-center ring-1 ring-neutral-950/[0.03] sm:px-8 dark:ring-neutral-100/[0.06]">
+      <section className="mx-auto flex max-w-4xl flex-col gap-8 px-0 sm:gap-10 lg:gap-14">
+        <div className="rounded-2xl border border-border/80 bg-muted/40 px-4 py-4 text-center ring-1 ring-neutral-950/[0.03] sm:px-6 sm:py-6 lg:px-8 dark:ring-neutral-100/[0.06]">
           <p className="m-0 text-sm leading-relaxed text-foreground/90">
             {countryName && countryName !== "—" ? (
               <>
@@ -143,7 +134,7 @@ export default function TimeCostResultsSection({
           </p>
         </div>
 
-        <div className="flex flex-col gap-6 rounded-2xl border border-border/80 bg-card px-5 py-8 shadow-sm ring-1 ring-neutral-950/[0.03] sm:gap-7 sm:px-8 sm:py-10 dark:ring-neutral-100/[0.06]">
+        <div className="flex flex-col gap-4 rounded-2xl border border-border/80 bg-card px-4 py-6 shadow-sm ring-1 ring-neutral-950/[0.03] sm:gap-6 sm:px-6 sm:py-8 lg:gap-7 lg:px-8 lg:py-10 dark:ring-neutral-100/[0.06]">
           <SectionHeading eyebrow="After tax" title="How much you get after taxes" />
           <TaxBreakdownTable
             monthlyIncome={parsePositiveNumber(submitted.monthlyIncome)}
@@ -152,15 +143,15 @@ export default function TimeCostResultsSection({
           />
         </div>
 
-        <div className="flex flex-col gap-6 rounded-2xl border border-border/80 bg-card px-5 py-8 shadow-sm ring-1 ring-neutral-950/[0.03] sm:gap-7 sm:px-8 sm:py-10 dark:ring-neutral-100/[0.06]">
+        <div className="flex flex-col gap-4 rounded-2xl border border-border/80 bg-card px-4 py-6 shadow-sm ring-1 ring-neutral-950/[0.03] sm:gap-6 sm:px-6 sm:py-8 lg:gap-7 lg:px-8 lg:py-10 dark:ring-neutral-100/[0.06]">
           <SectionHeading eyebrow="Time & tax" title="How much of your time is spent for paying taxes?" />
           <TaxTimeSection taxPortionOfYear={taxRate} workHoursPerDay={workHours > 0 ? workHours : 8} />
         </div>
       </section>
 
-      <section ref={cpiSlidesRef} className="mt-16 scroll-mt-8 sm:mt-20" aria-label="Corruption and reflection">
+      <div className="mt-10 sm:mt-16 lg:mt-20">
         <CpiSlides cpiValue={cpiValue} countryName={countryName} />
-      </section>
+      </div>
     </div>
   );
 }
